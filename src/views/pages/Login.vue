@@ -11,15 +11,15 @@
                 <p class="text-muted">Sign In to your account</p>
                 <div class="input-group mb-3">
                   <span class="input-group-addon"><i class="icon-user"></i></span>
-                  <input type="text" class="form-control" placeholder="Username">
+                  <input type="text" class="form-control" name="email" placeholder="Username">
                 </div>
                 <div class="input-group mb-4">
                   <span class="input-group-addon"><i class="icon-lock"></i></span>
-                  <input type="password" class="form-control" placeholder="Password">
+                  <input type="password" class="form-control" name="password" placeholder="Password">
                 </div>
                 <div class="row">
                   <div class="col-6">
-                    <button type="button" v-on:click="checkCreds" class="btn btn-primary px-4">1Login</button>
+                    <button type="button" v-on:click="tryLogin" class="btn btn-primary px-4">Login</button>
                   </div>
                   <div class="col-6 text-right">
                     <button type="button" class="btn btn-link px-0">Forgot password?</button>
@@ -69,15 +69,16 @@ export default {
       'setToken'
     ]),
 
-    checkCreds () {
+    tryLogin () {
       // const {email, password} = this
 
       this.toggleLoading()
       this.resetResponse()
       // this.$store.commit('TOGGLE_LOADING')
 
-      /* Making API call to authenticate a user */
+      // Making API call to authenticate a user
       api.request('post', 'api/1/login', {email: 'owen@siterwell.co.uk', password: '12345678'})
+      // api.request('post', 'api/1/login', {email, password})
         .then(response => {
           this.toggleLoading()
 

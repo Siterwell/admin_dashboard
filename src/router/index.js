@@ -8,6 +8,7 @@ import Full from '@/containers/Full'
 import Dashboard from '@/views/Dashboard'
 import Charts from '@/views/Charts'
 import Widgets from '@/views/Widgets'
+import Board from '@/views/Board'
 
 // Views - Components
 import Buttons from '@/views/components/Buttons'
@@ -46,6 +47,12 @@ export default new Router({
           path: 'dashboard',
           name: 'Dashboard',
           component: Dashboard,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'board',
+          name: 'Board',
+          component: Board,
           meta: { requiresAuth: true }
         },
         {

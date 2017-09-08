@@ -8,6 +8,7 @@ export default {
     state.searching = (state.searching === '') ? 'loading' : ''
   },
   [types.SET_USER] (state, user) {
+    console.log('mutation' + user)
     state.user = user
   },
   [types.SET_TOKEN] (state, token) {
