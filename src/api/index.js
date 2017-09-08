@@ -14,7 +14,9 @@ export default {
     }
 
     var url = config.serverURI + uri
-    console.error(data)
     return axios({ method, url, data })
+  },
+  setHeader () {
+    // axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
   }
 }

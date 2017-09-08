@@ -1,16 +1,14 @@
 export default {
   getUser: state => {
-    console.log(state.user)
     return state.user
   },
-  getTodo: state => {
-    return state.todos.filter((item) => {
-      return !item.done
-    })
+  getToken: state => {
+    return state.token
   },
-  getDone: state => {
-    return state.todos.filter((item) => {
-      return item.done
-    })
+  isLoading: state => {
+    return state.loading
+  },
+  getTablets: state => {
+    return state.tablets
   }
 }

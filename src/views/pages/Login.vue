@@ -106,6 +106,7 @@ export default {
             if (window.localStorage) {
               window.localStorage.setItem('user', 'oooowen')
               window.localStorage.setItem('token', token)
+              api.setHeader()
             }
 
             this.$router.push(data.redirect)

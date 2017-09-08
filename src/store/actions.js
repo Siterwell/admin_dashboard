@@ -11,7 +11,10 @@ export default {
     console.log(token)
     commit(types.SET_TOKEN, token)
   },
-  addTodo ({commit}, newTodo) {
-    commit(types.ADD_TODO, newTodo)
+  setLoading ({commit}, isLoading) {
+    commit(types.SET_LOADING, isLoading)
+  },
+  setTablets ({commit}, newTablets) {
+    commit(types.SET_TABLETS, newTablets)
   }
 }
