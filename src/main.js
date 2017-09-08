@@ -3,7 +3,35 @@
 import Vue from 'vue'
 import BootstrapVue from 'bootstrap-vue'
 import App from './App'
+import { sync } from 'vuex-router-sync'
 import router from './router'
+import store from './store'
+
+sync(store, router)
+// Some middleware to help us ensure the user is authenticated.
+router.beforeEach((to, from, next) => {
+  // window.console.log('Transition', transition)
+  console.log('to=', to.fullPath, '| from=', from.fullPath)
+  if (to.matched.some(record => {
+    // console.log(record.name, record.meta.requiresAuth)
+    return record.meta.requiresAuth
+  })) {
+    // 如果沒有 token 
+    console.log('token?', store.state.token)
+    if (store.state.token === '' ||
+    !store.state.token) {
+      // 轉跳到 login page
+      next({
+        path: '/pages/login',
+        query: { redirect: to.fullPath }
+      })
+    } else {
+      next()
+    }
+  } else {
+    next()
+  }
+})
 
 Vue.use(BootstrapVue)
 
@@ -11,8 +39,23 @@ Vue.use(BootstrapVue)
 new Vue({
   el: '#app',
   router,
+  store: store,
   template: '<App/>',
   components: {
     App
   }
 })
+
+// Check local storage to handle refreshes
+if (window.localStorage) {
+  // var localUserString = window.localStorage.getItem('user') || 'null'
+  /*   if (localUserString) {
+    var localUser = JSON.parse(localUserString)
+  }
+  localUser = JSON.parse(localUserString) */
+  var localUser = 'owen'
+  if (localUser && store.state.user !== localUser) {
+    store.commit('SET_USER', localUser)
+    store.commit('SET_TOKEN', window.localStorage.getItem('token'))
+  }
+}

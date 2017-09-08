@@ -35,16 +35,36 @@
         <b-dropdown-item><i class="fa fa-file"></i> Projects<span class="badge badge-primary">42</span></b-dropdown-item>
         <b-dropdown-divider></b-dropdown-divider>
         <b-dropdown-item><i class="fa fa-shield"></i> Lock Account</b-dropdown-item>
-        <b-dropdown-item><i class="fa fa-lock"></i> Logout</b-dropdown-item>
+        <b-dropdown-item @click="logout"><i class="fa fa-lock"></i> Logout</b-dropdown-item>
       </b-nav-item-dropdown>
     </b-nav>
     <button class="navbar-toggler aside-menu-toggler d-md-down-none" type="button" @click="asideToggle">&#9776;</button>
   </header>
 </template>
+
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'header',
   methods: {
+    ...mapActions([
+      'setUser',
+      'setToken'
+    ]),
+
+    logout () {
+      console.log('try logout')
+      this.setUser(null)
+      this.setToken(null)
+
+      if (window.localStorage) {
+        window.localStorage.setItem('user', null)
+        window.localStorage.setItem('token', null)
+      }
+
+      this.$router.push('/pages/login')
+    },
     sidebarToggle (e) {
       e.preventDefault()
       document.body.classList.toggle('sidebar-hidden')

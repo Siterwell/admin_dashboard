@@ -27,6 +27,7 @@ import Page404 from '@/views/pages/Page404'
 import Page500 from '@/views/pages/Page500'
 import Login from '@/views/pages/Login'
 import Register from '@/views/pages/Register'
+import Test from '@/views/pages/test'
 
 Vue.use(Router)
 
@@ -44,17 +45,20 @@ export default new Router({
         {
           path: 'dashboard',
           name: 'Dashboard',
-          component: Dashboard
+          component: Dashboard,
+          meta: { requiresAuth: true }
         },
         {
           path: 'charts',
           name: 'Charts',
-          component: Charts
+          component: Charts,
+          meta: { requiresAuth: true }
         },
         {
           path: 'widgets',
           name: 'Widgets',
-          component: Widgets
+          component: Widgets,
+          meta: { requiresAuth: true }
         },
         {
           path: 'components',
@@ -150,8 +154,18 @@ export default new Router({
           path: 'register',
           name: 'Register',
           component: Register
+        },
+        {
+          path: 'test',
+          name: 'Test',
+          component: Test
         }
       ]
+    },
+    {
+      // not found handler
+      path: '*',
+      component: Page404
     }
   ]
 })

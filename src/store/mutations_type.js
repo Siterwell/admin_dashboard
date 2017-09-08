@@ -1,0 +1,5 @@
+export const SET_USER = 'SET_USER'
+export const SET_TOKEN = 'SET_TOKEN'
+export const TOGGLE_LOADING = 'TOGGLE_LOADING'
+export const TOGGLE_SEARCHING = 'TOGGLE_SEARCHING'
+export const ADD_TODO = 'ADD_TODO'
