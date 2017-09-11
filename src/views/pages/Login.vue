@@ -71,17 +71,18 @@ export default {
 
     tryLogin () {
       // const {email, password} = this
-
-      this.toggleLoading()
       this.resetResponse()
       // this.$store.commit('TOGGLE_LOADING')
 
       // Making API call to authenticate a user
-      api.request('post', 'api/1/login', {email: 'owen@siterwell.co.uk', password: '12345678'})
+      api.request('post', 'api/1/login', {
+        email: 'owen@siterwell.co.uk',
+        password: '12345678',
+        clientType: 'browser',
+        userData: ''
+      })
       // api.request('post', 'api/1/login', {email, password})
         .then(response => {
-          this.toggleLoading()
-
           var data = response.data
           /* Checking if error object was returned from the server */
           if (data.error) {
@@ -106,7 +107,7 @@ export default {
             if (window.localStorage) {
               window.localStorage.setItem('user', 'oooowen')
               window.localStorage.setItem('token', token)
-              api.setHeader()
+              // api.setHeader()
             }
 
             this.$router.push(data.redirect)
@@ -117,11 +118,7 @@ export default {
           console.log(error)
 
           this.response = 'Server appears to be offline'
-          this.toggleLoading()
         })
-    },
-    toggleLoading () {
-      this.loading = (this.loading === '') ? 'loading' : ''
     },
     resetResponse () {
       this.response = ''

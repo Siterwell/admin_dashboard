@@ -8,7 +8,7 @@
               <template slot="button-content">
                 <i class="icon-settings"></i>
               </template>
-              <b-dropdown-item>Action</b-dropdown-item>
+              <b-dropdown-item>1Action</b-dropdown-item>
               <b-dropdown-item>Another action</b-dropdown-item>
               <b-dropdown-item>Something else here...</b-dropdown-item>
               <b-dropdown-item disabled>Disabled action</b-dropdown-item>

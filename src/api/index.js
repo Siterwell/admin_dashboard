@@ -13,8 +13,18 @@ export default {
       return
     }
 
+    var header = {'Authorization': localStorage.getItem('token')}
+    if (uri.includes('api/1/login') ||
+      uri.includes('api/1/register')) {
+      header = {}
+    }
     var url = config.serverURI + uri
-    return axios({ method, url, data })
+    return axios({
+      method,
+      url,
+      data,
+      headers: header
+    })
   },
   setHeader () {
     // axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
