@@ -5,6 +5,7 @@
         <div class="social-box facebook">
           <i class="fa fa-facebook"></i>
           <div class="chart-wrapper">
+            <pulse-loader :loading="loading"></pulse-loader>
             <social-box-chart-example :data="[65, 59, 84, 84, 51, 55, 140]" height="90"/>
           </div>
           <ul>
@@ -27,11 +28,13 @@
 import api from '../api'
 import { mapGetters, mapActions } from 'vuex'
 import SocialBoxChartExample from './dashboard/SocialBoxChartExample'
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 
 export default {
   name: 'board',
   components: {
-    SocialBoxChartExample
+    SocialBoxChartExample,
+    PulseLoader
   },
   data () {
     return {
@@ -63,20 +66,7 @@ export default {
     ...mapActions([
       'setLoading',
       'setTablets'
-    ]),
-    variant (value) {
-      let $variant
-      if (value <= 25) {
-        $variant = 'info'
-      } else if (value > 25 && value <= 50) {
-        $variant = 'success'
-      } else if (value > 50 && value <= 75) {
-        $variant = 'warning'
-      } else if (value > 75 && value <= 100) {
-        $variant = 'danger'
-      }
-      return $variant
-    }
+    ])
   }
 }
 </script>

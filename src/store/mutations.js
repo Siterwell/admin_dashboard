@@ -9,7 +9,7 @@ export default {
     state.token = token
   },
   [types.SET_LOADING] (state, isLoading) {
-    state.loading = state.isLoading
+    state.loading = isLoading
   },
   [types.TOGGLE_SEARCHING] (state) {
     state.searching = (state.searching === '') ? 'loading' : ''
