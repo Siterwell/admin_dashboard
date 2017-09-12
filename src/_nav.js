@@ -82,6 +82,24 @@ export default {
       }
     },
     {
+      name: 'Board',
+      url: '/board',
+      icon: 'icon-calculator',
+      badge: {
+        variant: 'danger',
+        text: 'NEW'
+      }
+    },
+    {
+      name: 'Logs',
+      url: '/logs',
+      icon: 'icon-calculator',
+      badge: {
+        variant: 'danger',
+        text: 'NEW'
+      }
+    },
+    {
       name: 'Charts',
       url: '/charts',
       icon: 'icon-pie-chart'

@@ -1,46 +1,22 @@
 <template>
    <div class="animated fadeIn">
-    <div class="row">
-      <div class="col-sm-6 col-lg-3">
-        <div class="social-box facebook">
-          <i class="fa fa-facebook"></i>
-          <div class="chart-wrapper">
-            <pulse-loader :loading="loading"></pulse-loader>
-            <social-box-chart-example :data="[65, 59, 84, 84, 51, 55, 140]" height="90"/>
-          </div>
-          <ul>
-            <li>
-              <strong>89k</strong>
-              <span>friends</span>
-            </li>
-            <li>
-              <strong>459</strong>
-              <span>feeds</span>
-            </li>
-          </ul>
-        </div><!--/.social-box-->
-      </div><!--/.col-->
-    </div><!--/.row-->
+    <pulse-loader :loading="loading"></pulse-loader>
     <div class="row">
       <div class="col-lg-12">
         <b-card header="<i class='fa fa-align-justify'></i> Striped Table">
           <table class="table table-striped">
             <thead>
               <tr>
-                <th>Name</th>
-                <th>Location</th>
+                <th>Title</th>
+                <th>Desc</th>
                 <th>latest update time</th>
-                <th>Status</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="tablet in tablets">
-                <td>{{ tablet.name }}</td>
-                <td>{{ tablet.name }}</td>
-                <td>{{ lastTime(tablet.updatedAt) }}</td>
-                <td>
-                  <span class="badge badge-success">{{ isOnline(tablet.active) }}</span>
-                </td>
+              <tr v-for="log in logs">
+                <td>{{ log.title }}</td>
+                <td>{{ log.desc }}</td>
+                <td>{{ lastTime(log.updatedAt) }}</td>
               </tr>
             </tbody>
           </table>
@@ -74,17 +50,16 @@ export default {
   },
   data () {
     return {
-      datalist: []
+      logs: []
     }
   },
   created () {
     this.setLoading(true)
 
-    api.request('get', 'api/1/controllers')
+    api.request('get', 'api/1/logs?limit=50')
       .then(response => {
-        console.log(response.data.results.controllers)
-        this.datalist = response.data.results.controllers
-        this.setTablets(response.data.results.controllers)
+        console.log(response.data.results)
+        this.logs = response.data.results
 
         this.setLoading(false)
       })
@@ -95,14 +70,12 @@ export default {
   },
   computed: {
     ...mapGetters({
-      loading: 'isLoading',
-      tablets: 'getTablets'
+      loading: 'isLoading'
     })
   },
   methods: {
     ...mapActions([
-      'setLoading',
-      'setTablets'
+      'setLoading'
     ]),
     isOnline: function (active) {
       return active

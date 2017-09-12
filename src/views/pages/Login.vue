@@ -7,15 +7,15 @@
             <div class="card p-4">
               <div class="card-body">
                 <h1>Login</h1>
-                <h2>count: {{ getName }}</h2>
+                <h2> {{ getName }}</h2>
                 <p class="text-muted">Sign In to your account</p>
                 <div class="input-group mb-3">
                   <span class="input-group-addon"><i class="icon-user"></i></span>
-                  <input type="text" class="form-control" name="email" placeholder="Username">
+                  <input type="text" class="form-control" v-model="email" placeholder="Username">
                 </div>
                 <div class="input-group mb-4">
                   <span class="input-group-addon"><i class="icon-lock"></i></span>
-                  <input type="password" class="form-control" name="password" placeholder="Password">
+                  <input type="password" class="form-control" v-model="password" placeholder="Password">
                 </div>
                 <div class="row">
                   <div class="col-6">
@@ -76,8 +76,8 @@ export default {
 
       // Making API call to authenticate a user
       api.request('post', 'api/1/login', {
-        email: 'owen@siterwell.co.uk',
-        password: '12345678',
+        email: this.email,
+        password: this.password,
         clientType: 'browser',
         userData: ''
       })
