@@ -3,7 +3,7 @@
     <pulse-loader :loading="loading"></pulse-loader>
     <div class="row">
       <div class="col-lg-12">
-        <b-card header="<i class='fa fa-align-justify'></i> Striped Table">
+        <b-card header="<i class='fa fa-align-justify'></i> Logs">
           <table class="table table-striped">
             <thead>
               <tr>

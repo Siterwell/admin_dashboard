@@ -2,9 +2,16 @@
 import { Pie } from 'vue-chartjs'
 
 export default Pie.extend({
+  props: {
+    dataList: {
+      type: Array,
+      required: true,
+      default: () => [40, 20, 80, 10]
+    }
+  },
   mounted () {
     this.renderChart({
-      labels: ['VueJs', 'EmberJs', 'ReactJs', 'AngularJs'],
+      labels: ['0', '1', '2', 'over 2'],
       datasets: [
         {
           backgroundColor: [
@@ -13,7 +20,7 @@ export default Pie.extend({
             '#00D8FF',
             '#DD1B16'
           ],
-          data: [40, 20, 80, 10]
+          data: this.dataList
         }
       ]
     }, {responsive: true, maintainAspectRatio: false})

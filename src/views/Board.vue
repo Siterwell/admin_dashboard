@@ -20,6 +20,13 @@
           </ul>
         </div><!--/.social-box-->
       </div><!--/.col-->
+      <div class="col-sm-6 col-lg-3">
+        <b-card header="Pie Chart">
+          <div class="chart-wrapper">
+            <pie-example :dataList="getDataList()"/>
+          </div>
+        </b-card>
+      </div>  
     </div><!--/.row-->
     <div class="row">
       <div class="col-lg-12">
@@ -34,7 +41,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="tablet in tablets">
+              <tr v-for="tablet in tabletList">
                 <td>{{ tablet.name }}</td>
                 <td>{{ tablet.name }}</td>
                 <td>{{ lastTime(tablet.updatedAt) }}</td>
@@ -65,16 +72,18 @@ import api from '../api'
 import { mapGetters, mapActions } from 'vuex'
 import SocialBoxChartExample from './dashboard/SocialBoxChartExample'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+import PieExample from './charts/PieExample'
 
 export default {
   name: 'board',
   components: {
     SocialBoxChartExample,
-    PulseLoader
+    PulseLoader,
+    PieExample
   },
   data () {
     return {
-      datalist: []
+      tabletList: []
     }
   },
   created () {
@@ -83,7 +92,7 @@ export default {
     api.request('get', 'api/1/controllers')
       .then(response => {
         console.log(response.data.results.controllers)
-        this.datalist = response.data.results.controllers
+        this.tabletList = response.data.results.controllers
         this.setTablets(response.data.results.controllers)
 
         this.setLoading(false)
@@ -109,6 +118,28 @@ export default {
     },
     lastTime: function (time) {
       return time
+    },
+    getDataList: function () {
+      let dataList = [0, 0, 50, 0]
+      for (let i = 0; i < this.tabletList.length; i++) {
+        if (this.tabletList[i].privGroups.length >= 4) {
+          dataList[3] += 1 / this.tabletList.length * 100
+          // dataList[3] = 51
+        } else if (this.tabletList[i].privGroups.length >= 3) {
+          dataList[2] += 1 / this.tabletList.length * 100
+          // dataList[2] = 49
+        } else if (this.tabletList[i].privGroups.length >= 2) {
+          dataList[1] += 1 / this.tabletList.length * 100
+        } else {
+          dataList[0] += 1 / this.tabletList.length * 100
+        }
+      }
+      dataList = dataList.map(function (item) {
+        return Number(item.toFixed(0))
+      })
+      // let dataList2 = [0, 0, 42.86, 57.14]
+      console.log(dataList)
+      return dataList
     }
   }
 }
