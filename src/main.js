@@ -30,7 +30,7 @@ router.beforeEach((to, from, next) => {
   })) {
     // 如果沒有 token 
     // console.log('token?', store.state.token)
-    if (store.state.token === '' ||
+    if (store.state.token === 'null' ||
     !store.state.token) {
       // 轉跳到 login page
       next({
