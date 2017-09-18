@@ -1,11 +1,11 @@
 <template>
    <div class="animated fadeIn">
+    <pulse-loader :loading="loading"></pulse-loader> 
     <div class="row">
       <div class="col-sm-6 col-lg-3">
         <div class="social-box facebook">
           <i class="fa fa-facebook"></i>
           <div class="chart-wrapper">
-            <pulse-loader :loading="loading"></pulse-loader>
             <social-box-chart-example :data="[65, 59, 84, 84, 51, 55, 140]" height="90"/>
           </div>
           <ul>

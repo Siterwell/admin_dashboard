@@ -21,7 +21,7 @@
       <b-nav-item-dropdown right>
         <template slot="button-content">
           <img src="static/img/avatars/6.jpg" class="img-avatar" alt="admin@bootstrapmaster.com">
-          <span class="d-md-down-none">admin</span>
+          <span class="d-md-down-none">{{getName}}</span>
         </template>
         <b-dropdown-header tag="div" class="text-center"><strong>Account</strong></b-dropdown-header>
         <b-dropdown-item><i class="fa fa-bell-o"></i> Updates<span class="badge badge-info">42</span></b-dropdown-item>
@@ -43,10 +43,16 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
+import api from '../api'
 
 export default {
   name: 'header',
+  computed: {
+    ...mapGetters({
+      getName: 'getUser'
+    })
+  },
   methods: {
     ...mapActions([
       'setUser',
@@ -55,6 +61,15 @@ export default {
 
     logout () {
       console.log('try logout')
+
+      // Making API call to authenticate a user
+      api.request('post', 'api/1/logout')
+        .then(response => {
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
       this.setUser(null)
       this.setToken(null)
 
