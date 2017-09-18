@@ -1,9 +1,7 @@
 <template>
    <div class="animated fadeIn">
-    <div class="spin-c">
-      <pulse-loader :loading="loading"></pulse-loader>
-    </div>
-    <div class="row">
+    <pulse-loader class="spin-c" :loading="loading"></pulse-loader>
+    <div v-if="!loading" class="row">
       <div class="col-lg-12">
         <b-card header="<i class='fa fa-align-justify'></i> Logs">
           <table class="table table-striped">

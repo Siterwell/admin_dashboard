@@ -23,7 +23,7 @@
       <div class="col-sm-6 col-lg-3">
         <b-card header="Pie Chart">
           <div class="chart-wrapper">
-            <pie-example :dataList="getDataList()"/>
+            <pie-example :dataList="getDataList"/>
           </div>
         </b-card>
       </div>  
@@ -106,7 +106,26 @@ export default {
     ...mapGetters({
       loading: 'isLoading',
       tablets: 'getTablets'
-    })
+    }),
+    getDataList: function () {
+      let dataList = [0, 0, 0, 0]
+      for (let i = 0; i < this.tabletList.length; i++) {
+        if (this.tabletList[i].privGroups.length >= 4) {
+          dataList[3] += 1 / this.tabletList.length * 100
+        } else if (this.tabletList[i].privGroups.length >= 3) {
+          dataList[2] += 1 / this.tabletList.length * 100
+        } else if (this.tabletList[i].privGroups.length >= 2) {
+          dataList[1] += 1 / this.tabletList.length * 100
+        } else {
+          dataList[0] += 1 / this.tabletList.length * 100
+        }
+      }
+      dataList = dataList.map(function (item) {
+        return Number(item.toFixed(0))
+      })
+      console.log(dataList)
+      return dataList
+    }
   },
   methods: {
     ...mapActions([
@@ -118,28 +137,6 @@ export default {
     },
     lastTime: function (time) {
       return time
-    },
-    getDataList: function () {
-      let dataList = [0, 0, 50, 0]
-      for (let i = 0; i < this.tabletList.length; i++) {
-        if (this.tabletList[i].privGroups.length >= 4) {
-          dataList[3] += 1 / this.tabletList.length * 100
-          // dataList[3] = 51
-        } else if (this.tabletList[i].privGroups.length >= 3) {
-          dataList[2] += 1 / this.tabletList.length * 100
-          // dataList[2] = 49
-        } else if (this.tabletList[i].privGroups.length >= 2) {
-          dataList[1] += 1 / this.tabletList.length * 100
-        } else {
-          dataList[0] += 1 / this.tabletList.length * 100
-        }
-      }
-      dataList = dataList.map(function (item) {
-        return Number(item.toFixed(0))
-      })
-      // let dataList2 = [0, 0, 42.86, 57.14]
-      console.log(dataList)
-      return dataList
     }
   }
 }

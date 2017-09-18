@@ -9,21 +9,39 @@ export default Pie.extend({
       default: () => [40, 20, 80, 10]
     }
   },
+  watch: {
+    dataList: function () {
+      console.log('watch data')
+      this._chart.destroy()
+      // this.renderChart(this.data, this.options);
+      this.renderLineChart()
+    }
+  },
   mounted () {
-    this.renderChart({
-      labels: ['0', '1', '2', 'over 2'],
-      datasets: [
-        {
-          backgroundColor: [
-            '#41B883',
-            '#E46651',
-            '#00D8FF',
-            '#DD1B16'
-          ],
-          data: this.dataList
-        }
-      ]
-    }, {responsive: true, maintainAspectRatio: false})
+    this.renderLineChart()
+  },
+  computed: {
+    chartData: function () {
+      return this.dataList
+    }
+  },
+  methods: {
+    renderLineChart: function () {
+      this.renderChart({
+        labels: ['0', '1', '2', 'over 2'],
+        datasets: [
+          {
+            backgroundColor: [
+              '#41B883',
+              '#E46651',
+              '#00D8FF',
+              '#DD1B16'
+            ],
+            data: this.chartData
+          }
+        ]
+      }, {responsive: true, maintainAspectRatio: false})
+    }
   }
 })
 </script>
