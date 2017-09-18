@@ -6,14 +6,12 @@ export default Pie.extend({
     dataList: {
       type: Array,
       required: true,
-      default: () => [40, 20, 80, 10]
+      default: () => [0, 0, 0, 0]
     }
   },
   watch: {
     dataList: function () {
-      console.log('watch data')
-      this._chart.destroy()
-      // this.renderChart(this.data, this.options);
+      // this._chart.destroy()
       this.renderLineChart()
     }
   },
