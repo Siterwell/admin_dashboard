@@ -6,7 +6,7 @@ import App from './App'
 import { sync } from 'vuex-router-sync'
 import router from './router'
 import store from './store'
-// import api from './api'
+// import apiArchitect from './plugin'
 
 // Check local storage to handle refreshes
 if (window.localStorage) {
@@ -45,6 +45,7 @@ router.beforeEach((to, from, next) => {
   }
 })
 
+// Vue.use(apiArchitect)
 Vue.use(BootstrapVue)
 
 /* eslint-disable no-new */

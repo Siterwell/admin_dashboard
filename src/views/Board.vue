@@ -3,25 +3,14 @@
     <pulse-loader :loading="loading"></pulse-loader> 
     <div class="row">
       <div class="col-sm-6 col-lg-3">
-        <div class="social-box facebook">
-          <i class="fa fa-facebook"></i>
+        <b-card header="Avg. Device Number">
           <div class="chart-wrapper">
-            <social-box-chart-example :data="[65, 59, 84, 84, 51, 55, 140]" height="90"/>
+            <pie-example :dataList="getDataList"/>
           </div>
-          <ul>
-            <li>
-              <strong>89k</strong>
-              <span>friends</span>
-            </li>
-            <li>
-              <strong>459</strong>
-              <span>feeds</span>
-            </li>
-          </ul>
-        </div><!--/.social-box-->
+        </b-card>
       </div><!--/.col-->
       <div class="col-sm-6 col-lg-3">
-        <b-card header="Pie Chart">
+        <b-card header="Avg. Family Account">
           <div class="chart-wrapper">
             <pie-example :dataList="getDataList"/>
           </div>
@@ -30,7 +19,7 @@
     </div><!--/.row-->
     <div class="row">
       <div class="col-lg-12">
-        <b-card header="<i class='fa fa-align-justify'></i> Striped Table">
+        <b-card header="<i class='fa fa-align-justify'></i> Tablets Info">
           <table class="table table-striped">
             <thead>
               <tr>
@@ -83,7 +72,6 @@ export default {
   },
   data () {
     return {
-      tabletList: []
     }
   },
   created () {
@@ -92,9 +80,7 @@ export default {
     api.request('get', 'api/1/controllers')
       .then(response => {
         console.log(response.data.results.controllers)
-        this.tabletList = response.data.results.controllers
         this.setTablets(response.data.results.controllers)
-
         this.setLoading(false)
       })
       .catch(error => {
@@ -105,19 +91,19 @@ export default {
   computed: {
     ...mapGetters({
       loading: 'isLoading',
-      tablets: 'getTablets'
+      tabletList: 'getTablets'
     }),
-    getDataList: function () {
+    getAvgFamilyAccount: function () {
       let dataList = [0, 0, 0, 0]
       for (let i = 0; i < this.tabletList.length; i++) {
         if (this.tabletList[i].privGroups.length >= 4) {
-          dataList[3] += 1 / this.tabletList.length * 100
+          dataList[3]++
         } else if (this.tabletList[i].privGroups.length >= 3) {
-          dataList[2] += 1 / this.tabletList.length * 100
+          dataList[2]++
         } else if (this.tabletList[i].privGroups.length >= 2) {
-          dataList[1] += 1 / this.tabletList.length * 100
+          dataList[1]++
         } else {
-          dataList[0] += 1 / this.tabletList.length * 100
+          dataList[0]++
         }
       }
       dataList = dataList.map(function (item) {
