@@ -20,7 +20,7 @@
       </b-nav-item> --> 
       <b-nav-item-dropdown right>
         <template slot="button-content">
-          <img src="static/img/avatars/9.png" class="img-avatar" alt="admin@bootstrapmaster.com">
+          <img src="static/img/avatars/9.png" class="img-avatar">
           <span class="d-md-down-none">{{getName}}</span>
         </template>
         <!-- <b-dropdown-header tag="div" class="text-center"><strong>Account</strong></b-dropdown-header>
