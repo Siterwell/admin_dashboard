@@ -9,7 +9,7 @@ import Dashboard from '@/views/Dashboard'
 import Dashboard2 from '@/views/Dashboard2'
 import Charts from '@/views/Charts'
 import Widgets from '@/views/Widgets'
-import Board from '@/views/Board'
+import Tablets from '@/views/Tablets'
 import Logs from '@/views/Logs'
 
 // Views - Components
@@ -58,9 +58,9 @@ export default new Router({
           meta: { requiresAuth: true }
         },
         {
-          path: 'board',
-          name: 'Board',
-          component: Board,
+          path: 'tablets',
+          name: 'Tablets',
+          component: Tablets,
           meta: { requiresAuth: true }
         },
         {

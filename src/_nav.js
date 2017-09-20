@@ -11,6 +11,37 @@ export default {
     },
     {
       title: true,
+      name: 'Functionality'
+    },
+    {
+      name: 'Dashboard',
+      url: '/dashboard',
+      icon: 'icon-speedometer',
+      badge: {
+        variant: 'primary',
+        text: 'NEW'
+      }
+    },
+    {
+      name: 'Tablets',
+      url: '/tablets',
+      icon: 'icon-list',
+      badge: {
+        variant: 'danger',
+        text: 'NEW'
+      }
+    },
+    {
+      name: 'Logs',
+      url: '/logs',
+      icon: 'icon-folder',
+      badge: {
+        variant: 'danger',
+        text: 'NEW'
+      }
+    },
+    {
+      title: true,
       name: 'UI elements'
     },
     {
@@ -75,29 +106,7 @@ export default {
     {
       name: 'Widgets',
       url: '/widgets',
-      icon: 'icon-calculator',
-      badge: {
-        variant: 'danger',
-        text: 'NEW'
-      }
-    },
-    {
-      name: 'Board',
-      url: '/board',
-      icon: 'icon-calculator',
-      badge: {
-        variant: 'danger',
-        text: 'NEW'
-      }
-    },
-    {
-      name: 'Logs',
-      url: '/logs',
-      icon: 'icon-calculator',
-      badge: {
-        variant: 'danger',
-        text: 'NEW'
-      }
+      icon: 'icon-calculator'
     },
     {
       name: 'Charts',

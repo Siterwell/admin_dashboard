@@ -4,9 +4,8 @@ import { Pie } from 'vue-chartjs'
 export default Pie.extend({
   props: {
     dataList: {
-      type: Array,
-      required: true,
-      default: () => [0, 0, 0, 0]
+      type: Object,
+      required: true
     }
   },
   watch: {
@@ -25,19 +24,13 @@ export default Pie.extend({
   },
   methods: {
     renderLineChart: function () {
+      console.log(this.chartData.labels)
+      if (!this.chartData.labels) {
+        return
+      }
       this.renderChart({
-        labels: ['0', '1', '2', 'over 2'],
-        datasets: [
-          {
-            backgroundColor: [
-              '#41B883',
-              '#E46651',
-              '#00D8FF',
-              '#DD1B16'
-            ],
-            data: this.chartData
-          }
-        ]
+        labels: this.chartData.labels,
+        datasets: this.chartData.datasets
       }, {responsive: true, maintainAspectRatio: false})
     }
   }

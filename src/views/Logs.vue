@@ -39,13 +39,11 @@
 <script>
 import api from '../api'
 import { mapGetters, mapActions } from 'vuex'
-import SocialBoxChartExample from './dashboard/SocialBoxChartExample'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 
 export default {
-  name: 'board',
+  name: 'logs',
   components: {
-    SocialBoxChartExample,
     PulseLoader
   },
   data () {
