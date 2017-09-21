@@ -7,6 +7,7 @@
           <table class="table table-striped">
             <thead>
               <tr>
+                <th>Tablet name</th>
                 <th>Title</th>
                 <th>Desc</th>
                 <th>latest update time</th>
@@ -14,22 +15,25 @@
             </thead>
             <tbody>
               <tr v-for="log in logs">
+                <td>{{ getTabletName(log.content.parms) }}</td>
                 <td>{{ log.title }}</td>
                 <td>{{ log.desc }}</td>
                 <td>{{ lastTime(log.updatedAt) }}</td>
               </tr>
             </tbody>
           </table>
-          <ul class="pagination">
-            <li class="page-item"><a class="page-link" href="#">Prev</a></li>
-            <li class="page-item active">
-              <a class="page-link" href="#">1</a>
-            </li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item"><a class="page-link" href="#">4</a></li>
-            <li class="page-item"><a class="page-link" href="#">Next</a></li>
-          </ul>
+          <paginate
+            :page-count="20"
+            :page-range="3"
+            :margin-pages="2"
+            :initial-page="getSelectPage"
+            :click-handler="clickCallback"
+            :prev-text="'Prev'"
+            :next-text="'Next'"
+            :container-class="'pagination'"
+            :page-class="'page-item'"
+            ref="paginate">
+          </paginate>
         </b-card>
       </div><!--/.col-->
     </div><!--/.row-->
@@ -40,15 +44,18 @@
 import api from '../api'
 import { mapGetters, mapActions } from 'vuex'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
+import Paginate from 'vuejs-paginate'
 
 export default {
   name: 'logs',
   components: {
-    PulseLoader
+    PulseLoader,
+    Paginate
   },
   data () {
     return {
-      logs: []
+      logs: [],
+      nowPage: 0
     }
   },
   created () {
@@ -58,7 +65,6 @@ export default {
       .then(response => {
         console.log(response.data.results)
         this.logs = response.data.results
-
         this.setLoading(false)
       })
       .catch(error => {
@@ -69,17 +75,40 @@ export default {
   computed: {
     ...mapGetters({
       loading: 'isLoading'
-    })
+    }),
+    getSelectPage: function () {
+      return this.nowPage
+    }
   },
   methods: {
     ...mapActions([
       'setLoading'
     ]),
-    isOnline: function (active) {
-      return active
-    },
     lastTime: function (time) {
       return time
+    },
+    getTabletName: function (items) {
+      for (let i = 0; i < items.length; i++) {
+        if (items[i].key === 'controllerName') {
+          return items[i].value
+        }
+      }
+    },
+    clickCallback: function (pageNum) {
+      console.log(pageNum)
+      this.setLoading(true)
+      let path = 'api/1/logs?limit=50&offset=' + ((pageNum - 1) * 50)
+      api.request('get', path)
+        .then(response => {
+          // console.log(response.data.results)
+          this.logs = response.data.results
+          this.nowPage = pageNum - 1
+          this.setLoading(false)
+        })
+        .catch(error => {
+          console.log(error)
+          this.setLoading(false)
+        })
     }
   }
 }
