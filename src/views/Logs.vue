@@ -24,15 +24,14 @@
           </table>
           <paginate
             :page-count="20"
-            :page-range="3"
+            :page-range="7"
             :margin-pages="2"
             :initial-page="getSelectPage"
             :click-handler="clickCallback"
             :prev-text="'Prev'"
             :next-text="'Next'"
             :container-class="'pagination'"
-            :page-class="'page-item'"
-            ref="paginate">
+            :page-class="'page-item'">
           </paginate>
         </b-card>
       </div><!--/.col-->
@@ -95,7 +94,6 @@ export default {
       }
     },
     clickCallback: function (pageNum) {
-      console.log(pageNum)
       this.setLoading(true)
       let path = 'api/1/logs?limit=50&offset=' + ((pageNum - 1) * 50)
       api.request('get', path)
