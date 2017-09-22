@@ -69,7 +69,8 @@ export default {
     ...mapActions([
       'setUser',
       'setToken',
-      'setLoading'
+      'setLoading',
+      'setStInfos'
     ]),
 
     tryLogin () {
@@ -94,12 +95,13 @@ export default {
           /* Setting user in the state and caching record to the localStorage */
           if (data.token) {
             var token = 'Bearer ' + data.token
-
-            this.setUser('oooowen')
+            var username = this.email.substr(0, this.email.indexOf('@'))
+            this.setUser(username)
             this.setToken(token)
+            this.setStInfos([1, 2, 3])
 
             if (window.localStorage) {
-              window.localStorage.setItem('user', 'oooowen')
+              window.localStorage.setItem('user', username)
               window.localStorage.setItem('token', token)
             }
 

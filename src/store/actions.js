@@ -16,5 +16,8 @@ export default {
   },
   setTablets ({commit}, newTablets) {
     commit(types.SET_TABLETS, newTablets)
+  },
+  setStInfos ({commit}, newStInfos) {
+    commit(types.SET_STINFOS, newStInfos)
   }
 }

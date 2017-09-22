@@ -10,7 +10,6 @@ export default Pie.extend({
   },
   watch: {
     dataList: function () {
-      // this._chart.destroy()
       this.renderLineChart()
     }
   },
@@ -24,7 +23,7 @@ export default Pie.extend({
   },
   methods: {
     renderLineChart: function () {
-      console.log(this.chartData.labels)
+      // console.log(this.chartData.labels)
       if (!this.chartData.labels) {
         return
       }

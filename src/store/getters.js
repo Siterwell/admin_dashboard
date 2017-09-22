@@ -10,5 +10,8 @@ export default {
   },
   getTablets: state => {
     return state.tablets
+  },
+  getStInfos: state => {
+    return state.stInfos
   }
 }

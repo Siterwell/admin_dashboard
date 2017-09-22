@@ -1,5 +1,5 @@
 export const SET_USER = 'SET_USER'
 export const SET_TOKEN = 'SET_TOKEN'
 export const SET_LOADING = 'SET_LOADING'
-export const TOGGLE_SEARCHING = 'TOGGLE_SEARCHING'
 export const SET_TABLETS = 'SET_TABLETS'
+export const SET_STINFOS = 'SET_STINFOS'

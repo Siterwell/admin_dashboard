@@ -4,13 +4,13 @@
     <b-link class="navbar-brand" to="#"></b-link>
     <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" @click="sidebarMinimize">&#9776;</button>
     <b-nav is-nav-bar class="d-md-down-none">
-      <b-nav-item class="px-3" @click="toDashboard">Dashboard</b-nav-item>
-      <b-nav-item class="px-3" @click="toTablets">Tablets</b-nav-item>
-      <b-nav-item class="px-3" @click="toLogs">Logs</b-nav-item>
+      <b-nav-item class="px-3" @click="tryRedirect('dashboard')">Dashboard</b-nav-item>
+      <b-nav-item class="px-3" @click="tryRedirect('tablets')">Tablets</b-nav-item>
+      <b-nav-item class="px-3" @click="tryRedirect('logs')">Logs</b-nav-item>
     </b-nav>
     <b-nav is-nav-bar class="ml-auto">
       <b-nav-item class="d-md-down-none">
-        <i class="icon-bell"></i><span class="badge badge-pill badge-danger">5</span>
+        <i class="icon-bell"></i><span v-if="stInfos.length <= 0" class="badge badge-pill badge-danger">3</span>
       </b-nav-item>
       <!-- <b-nav-item class="d-md-down-none">
         <i class="icon-list"></i>
@@ -21,7 +21,7 @@
       <b-nav-item-dropdown right>
         <template slot="button-content">
           <img src="static/img/avatars/9.png" class="img-avatar">
-          <avatar :fullname="getName" :size="30" color="black" class="st-avatar"></avatar>
+          <avatar :fullname="getName" :size="36" color="black" class="st-avatar"></avatar>
           <span class="d-md-down-none">{{getName}}</span>
         </template>
         <!-- <b-dropdown-header tag="div" class="text-center"><strong>Account</strong></b-dropdown-header>
@@ -55,7 +55,8 @@ export default {
   },
   computed: {
     ...mapGetters({
-      getName: 'getUser'
+      getName: 'getUser',
+      stInfos: 'getStInfos'
     })
   },
   methods: {
@@ -85,14 +86,11 @@ export default {
 
       this.$router.push('/pages/login')
     },
-    toDashboard () {
-      this.$router.push('/dashboard')
+    tryRedirect (route) {
+      this.$router.push('/' + route)
     },
-    toTablets () {
-      this.$router.push('/tablets')
-    },
-    toLogs () {
-      this.$router.push('/logs')
+    renewInfo () {
+      console.log('aaa')
     },
     sidebarToggle (e) {
       e.preventDefault()

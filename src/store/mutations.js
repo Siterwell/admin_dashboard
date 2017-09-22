@@ -11,10 +11,10 @@ export default {
   [types.SET_LOADING] (state, isLoading) {
     state.loading = isLoading
   },
-  [types.TOGGLE_SEARCHING] (state) {
-    state.searching = (state.searching === '') ? 'loading' : ''
-  },
   [types.SET_TABLETS] (state, newTablets) {
     state.tablets = newTablets
+  },
+  [types.SET_STINFOS] (state, newStInfos) {
+    state.stInfos = newStInfos
   }
 }

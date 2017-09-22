@@ -102,7 +102,7 @@ export default {
         }
       }
 
-      console.log(avgDC)
+      // console.log(avgDC)
 
       let avgDCData = {
         labels: ['0~3', '4~8', '9~13', '13+'],
