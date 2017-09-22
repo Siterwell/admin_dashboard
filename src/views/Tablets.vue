@@ -24,6 +24,16 @@
               </tr>
             </tbody>
           </table>
+          <paginate
+            :page-count="tabletsNum"
+            :page-range="3"
+            :margin-pages="2"
+            :click-handler="clickCallback"
+            :prev-text="'Prev'"
+            :next-text="'Next'"
+            :container-class="'pagination'"
+            :page-class="'page-item'">
+          </paginate>
         </b-card>
       </div><!--/.col-->
     </div><!--/.row-->
@@ -35,15 +45,18 @@ import api from '../api'
 import { mapGetters, mapActions } from 'vuex'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import PieExample from './charts/PieExample'
+import Paginate from 'vuejs-paginate'
 
 export default {
   name: 'tablets',
   components: {
     PulseLoader,
-    PieExample
+    PieExample,
+    Paginate
   },
   data () {
     return {
+      tabletsNum: 0
     }
   },
   created () {
@@ -54,6 +67,7 @@ export default {
         console.log(response.data.results.controllers)
         this.setTablets(response.data.results.controllers)
         this.setLoading(false)
+        this.tabletsNum = response.data.results.controllers.length / 20
       })
       .catch(error => {
         console.log(error)
@@ -95,6 +109,20 @@ export default {
     },
     lastTime: function (time) {
       return time
+    },
+    clickCallback: function (pageNum) {
+      let path = 'api/1/logs?limit=50&offset=' + ((pageNum - 1) * 50)
+      api.request('get', path)
+        .then(response => {
+          // console.log(response.data.results)
+          this.logs = response.data.results
+          this.nowPage = pageNum - 1
+          this.setLoading(false)
+        })
+        .catch(error => {
+          console.log(error)
+          this.setLoading(false)
+        })
     }
   }
 }

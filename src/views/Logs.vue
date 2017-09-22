@@ -60,7 +60,7 @@ export default {
   created () {
     this.setLoading(true)
 
-    api.request('get', 'api/1/logs?limit=50')
+    api.request('get', 'api/1/logs?logType=message&limit=50')
       .then(response => {
         console.log(response.data.results)
         this.logs = response.data.results
@@ -95,7 +95,7 @@ export default {
     },
     clickCallback: function (pageNum) {
       this.setLoading(true)
-      let path = 'api/1/logs?limit=50&offset=' + ((pageNum - 1) * 50)
+      let path = 'api/1/logs?logType=message&limit=50&offset=' + ((pageNum - 1) * 50)
       api.request('get', path)
         .then(response => {
           // console.log(response.data.results)
