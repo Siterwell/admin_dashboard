@@ -88,6 +88,9 @@ export default {
     getDevCnt: function () {
       let avgDC = [0, 0, 0, 0]
       for (let i = 0; i < this.tabletList.length; i++) {
+        if (!this.tabletList[i].devices) {
+          continue
+        }
         if (this.tabletList[i].devices.length >= 14) {
           avgDC[3]++
         } else if (this.tabletList[i].devices.length >= 9) {

@@ -13,7 +13,6 @@ if (window.localStorage) {
   let localUser = window.localStorage.getItem('user') || 'null'
   if (localUser && store.state.user !== localUser) {
     console.log('main.js set user ' + localUser)
-    // api.setHeader()
     store.commit('SET_USER', localUser)
     store.commit('SET_TOKEN', window.localStorage.getItem('token'))
   }

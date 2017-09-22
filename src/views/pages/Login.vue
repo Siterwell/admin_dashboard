@@ -24,31 +24,36 @@
                     <button type="button" class="btn btn-link px-0">Forgot password?</button>
                   </div>
                 </div>
-                <div class="row justify-content-center">
-                  <div v-if=response class="col align-self-center"><p>{{response}}</p></div>
-                </div>  
               </div>
             </div> <!-- card-body -->
           </div>
         </div>
       </div>
     </div>
+    <simplert 
+      :useRadius="true"
+      :useIcon="true"
+      ref="simplert">
+    </simplert>
   </div>
 </template>
 
 <script>
 import api from '../../api'
 import { mapGetters, mapActions } from 'vuex'
+import Simplert from 'vue2-simplert'
 
 export default {
   name: 'Login',
+  components: {
+    Simplert
+  },
   data (router) {
     return {
       section: 'Login',
       loading: '',
       email: '',
-      password: '',
-      response: ''
+      password: ''
     }
   },
   computed: {
@@ -63,9 +68,6 @@ export default {
     ]),
 
     tryLogin () {
-      // const {email, password} = this
-      this.resetResponse()
-
       // Making API call to authenticate a user
       api.request('post', 'api/1/login', {
         email: this.email,
@@ -78,14 +80,7 @@ export default {
           var data = response.data
           /* Checking if error object was returned from the server */
           if (data.error) {
-            var errorName = data.error.name
-            if (errorName) {
-              this.response = errorName === 'InvalidCredentialsError'
-                ? 'email/Password incorrect. Please try again.'
-                : errorName
-            } else {
-              this.response = data.error
-            }
+            console.log(data.error.name)
 
             return
           }
@@ -99,20 +94,22 @@ export default {
             if (window.localStorage) {
               window.localStorage.setItem('user', 'oooowen')
               window.localStorage.setItem('token', token)
-              // api.setHeader()
             }
 
             this.$router.push(data.redirect)
           }
         })
         .catch(error => {
-          console.log(error)
+          // console.log(error.response.data.message)
 
-          this.response = 'Server appears to be offline'
+          let obj = {
+            title: 'Login failed',
+            message: error.response.data.message,
+            type: 'error',
+            onClose: this.onClose
+          }
+          this.$refs.simplert.openSimplert(obj)
         })
-    },
-    resetResponse () {
-      this.response = ''
     }
   }
 }

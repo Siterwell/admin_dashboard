@@ -25,8 +25,5 @@ export default {
       data,
       headers: header
     })
-  },
-  setHeader () {
-    // axios.defaults.headers.common['Authorization'] = localStorage.getItem('token')
   }
 }
