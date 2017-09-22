@@ -21,6 +21,7 @@
       <b-nav-item-dropdown right>
         <template slot="button-content">
           <img src="static/img/avatars/9.png" class="img-avatar">
+          <avatar :fullname="getName" :size="30" color="black" class="st-avatar"></avatar>
           <span class="d-md-down-none">{{getName}}</span>
         </template>
         <!-- <b-dropdown-header tag="div" class="text-center"><strong>Account</strong></b-dropdown-header>
@@ -44,10 +45,14 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import Avatar from 'vue-avatar-component'
 import api from '../api'
 
 export default {
   name: 'header',
+  components: {
+    Avatar
+  },
   computed: {
     ...mapGetters({
       getName: 'getUser'
