@@ -1,7 +1,10 @@
 <template>
   <div class="app flex-row align-items-center">
     <div class="container">
-      <div class="row justify-content-center">
+      <div class="animated fadeIn">
+      <pulse-loader class="spin-c" :loading="loading"></pulse-loader>
+      </div>
+      <div v-if="!loading" class="row justify-content-center">
         <div class="col-md-8">
           <div class="card-group mb-0">
             <div class="card p-4">
@@ -41,33 +44,36 @@
 <script>
 import api from '../../api'
 import { mapGetters, mapActions } from 'vuex'
+import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import Simplert from 'vue2-simplert'
 
 export default {
   name: 'Login',
   components: {
-    Simplert
+    Simplert,
+    PulseLoader
   },
   data (router) {
     return {
-      section: 'Login',
-      loading: '',
       email: '',
       password: ''
     }
   },
   computed: {
     ...mapGetters({
+      loading: 'isLoading',
       getName: 'getUser'
     })
   },
   methods: {
     ...mapActions([
       'setUser',
-      'setToken'
+      'setToken',
+      'setLoading'
     ]),
 
     tryLogin () {
+      this.setLoading(true)
       // Making API call to authenticate a user
       api.request('post', 'api/1/login', {
         email: this.email,
@@ -77,6 +83,7 @@ export default {
       })
       // api.request('post', 'api/1/login', {email, password})
         .then(response => {
+          this.setLoading(false)
           var data = response.data
           /* Checking if error object was returned from the server */
           if (data.error) {
@@ -101,7 +108,7 @@ export default {
         })
         .catch(error => {
           // console.log(error.response.data.message)
-
+          this.setLoading(false)
           let obj = {
             title: 'Login failed',
             message: error.response.data.message,
