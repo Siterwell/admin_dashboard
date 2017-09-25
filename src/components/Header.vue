@@ -10,7 +10,7 @@
     </b-nav>
     <b-nav is-nav-bar class="ml-auto">
       <b-nav-item class="d-md-down-none">
-        <i class="icon-bell"></i><span v-if="stInfos.length <= 0" class="badge badge-pill badge-danger">3</span>
+        <i class="icon-bell"></i><span v-if="stInfos.length > 0" class="badge badge-pill badge-danger">{{stInfos.length}}</span>
       </b-nav-item>
       <!-- <b-nav-item class="d-md-down-none">
         <i class="icon-list"></i>
@@ -53,10 +53,17 @@ export default {
   components: {
     Avatar
   },
+  data () {
+    return {
+      stInfos: []
+    }
+  },
+  created () {
+    this.tryGetStInfos()
+  },
   computed: {
     ...mapGetters({
-      getName: 'getUser',
-      stInfos: 'getStInfos'
+      getName: 'getUser'
     })
   },
   methods: {
@@ -89,8 +96,15 @@ export default {
     tryRedirect (route) {
       this.$router.push('/' + route)
     },
-    renewInfo () {
-      console.log('aaa')
+    tryGetStInfos () {
+      api.request('get', 'api/1/logs?logType=message&limit=50')
+        .then(response => {
+          // console.log(response.data.results)
+          this.stInfos = response.data.results
+        })
+        .catch(error => {
+          console.log(error)
+        })
     },
     sidebarToggle (e) {
       e.preventDefault()

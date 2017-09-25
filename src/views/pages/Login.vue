@@ -69,8 +69,7 @@ export default {
     ...mapActions([
       'setUser',
       'setToken',
-      'setLoading',
-      'setStInfos'
+      'setLoading'
     ]),
 
     tryLogin () {
@@ -98,7 +97,6 @@ export default {
             var username = this.email.substr(0, this.email.indexOf('@'))
             this.setUser(username)
             this.setToken(token)
-            this.setStInfos([1, 2, 3])
 
             if (window.localStorage) {
               window.localStorage.setItem('user', username)

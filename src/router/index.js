@@ -11,6 +11,7 @@ import Charts from '@/views/Charts'
 import Widgets from '@/views/Widgets'
 import Tablets from '@/views/Tablets'
 import Logs from '@/views/Logs'
+import Maps from '@/views/Maps'
 
 // Views - Components
 import Buttons from '@/views/components/Buttons'
@@ -67,6 +68,12 @@ export default new Router({
           path: 'logs',
           name: 'Logs',
           component: Logs,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'maps',
+          name: 'Maps',
+          component: Maps,
           meta: { requiresAuth: true }
         },
         {

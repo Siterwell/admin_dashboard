@@ -56,7 +56,7 @@ import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import Paginate from 'vuejs-paginate'
 
 export default {
-  name: 'logs',
+  name: 'maps',
   components: {
     PulseLoader,
     Paginate

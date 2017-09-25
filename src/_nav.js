@@ -41,6 +41,15 @@ export default {
       }
     },
     {
+      name: 'Maps',
+      url: '/maps',
+      icon: 'icon-map',
+      badge: {
+        variant: 'danger',
+        text: 'NEW'
+      }
+    },
+    {
       title: true,
       name: 'UI elements'
     },
