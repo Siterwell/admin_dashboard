@@ -9,9 +9,10 @@ import Dashboard from '@/views/Dashboard'
 import Dashboard2 from '@/views/Dashboard2'
 import Charts from '@/views/Charts'
 import Widgets from '@/views/Widgets'
-import Tablets from '@/views/Tablets'
+import Controllers from '@/views/Controllers'
 import Logs from '@/views/Logs'
 import Maps from '@/views/Maps'
+import Alerts from '@/views/Alerts'
 
 // Views - Components
 import Buttons from '@/views/components/Buttons'
@@ -59,9 +60,15 @@ export default new Router({
           meta: { requiresAuth: true }
         },
         {
-          path: 'tablets',
-          name: 'Tablets',
-          component: Tablets,
+          path: 'controllers',
+          name: 'Controllers',
+          component: Controllers,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'alerts',
+          name: 'Alerts',
+          component: Alerts,
           meta: { requiresAuth: true }
         },
         {

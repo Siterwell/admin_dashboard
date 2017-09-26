@@ -3,7 +3,7 @@
     <pulse-loader class="spin-c" :loading="loading"></pulse-loader>
     <div v-if="!loading" class="row">
       <div class="col-lg-12">
-        <b-card header="<i class='fa fa-align-justify'></i> Tablets Info">
+        <b-card header="<i class='fa fa-align-justify'></i> Controllers Info">
           <table class="table table-striped">
             <thead>
               <tr>
@@ -14,18 +14,18 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="tablet in tabletList">
-                <td>{{ tablet.name }}</td>
-                <td>{{ tablet.controllerId }}</td>
-                <td>{{ lastTime(tablet.updatedAt) }}</td>
+              <tr v-for="controller in controllerList">
+                <td>{{ controller.name }}</td>
+                <td>{{ controller.controllerId }}</td>
+                <td>{{ lastTime(controller.updatedAt) }}</td>
                 <td>
-                  <span :class="isOnlineClass(tablet.active)">{{ isOnline(tablet.active) }}</span>
+                  <span :class="isOnlineClass(controller.active)">{{ isOnline(controller.active) }}</span>
                 </td>
               </tr>
             </tbody>
           </table>
           <paginate
-            :page-count="tabletsNum"
+            :page-count="controllersNum"
             :page-range="3"
             :margin-pages="2"
             :click-handler="clickCallback"
@@ -48,7 +48,7 @@ import PieExample from './charts/PieExample'
 import Paginate from 'vuejs-paginate'
 
 export default {
-  name: 'tablets',
+  name: 'controllers',
   components: {
     PulseLoader,
     PieExample,
@@ -56,7 +56,7 @@ export default {
   },
   data () {
     return {
-      tabletsNum: 0
+      controllersNum: 0
     }
   },
   created () {
@@ -65,9 +65,9 @@ export default {
     api.request('get', 'api/1/controllers')
       .then(response => {
         console.log(response.data.results.controllers)
-        this.setTablets(response.data.results.controllers)
+        this.setControllers(response.data.results.controllers)
         this.setLoading(false)
-        this.tabletsNum = response.data.results.controllers.length / 20
+        this.controllertsNum = response.data.results.controllers.length / 20
       })
       .catch(error => {
         console.log(error)
@@ -77,13 +77,13 @@ export default {
   computed: {
     ...mapGetters({
       loading: 'isLoading',
-      tabletList: 'getTablets'
+      controllerList: 'getControllers'
     })
   },
   methods: {
     ...mapActions([
       'setLoading',
-      'setTablets'
+      'setControllers'
     ]),
     isOnlineClass: function (active) {
       if (active === '0') {

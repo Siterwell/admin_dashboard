@@ -14,8 +14,8 @@ export default {
   setLoading ({commit}, isLoading) {
     commit(types.SET_LOADING, isLoading)
   },
-  setTablets ({commit}, newTablets) {
-    commit(types.SET_TABLETS, newTablets)
+  setControllers ({commit}, newControllers) {
+    commit(types.SET_CONTROLLERS, newControllers)
   },
   setStInfos ({commit}, newStInfos) {
     commit(types.SET_STINFOS, newStInfos)

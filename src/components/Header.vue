@@ -5,7 +5,8 @@
     <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" @click="sidebarMinimize">&#9776;</button>
     <b-nav is-nav-bar class="d-md-down-none">
       <b-nav-item class="px-3" @click="tryRedirect('dashboard')">Dashboard</b-nav-item>
-      <b-nav-item class="px-3" @click="tryRedirect('tablets')">Tablets</b-nav-item>
+      <b-nav-item class="px-3" @click="tryRedirect('controllers')">Controllers</b-nav-item>
+      <b-nav-item class="px-3" @click="tryRedirect('alerts')">Alerts</b-nav-item>
       <b-nav-item class="px-3" @click="tryRedirect('logs')">Logs</b-nav-item>
     </b-nav>
     <b-nav is-nav-bar class="ml-auto">

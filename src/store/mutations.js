@@ -11,8 +11,8 @@ export default {
   [types.SET_LOADING] (state, isLoading) {
     state.loading = isLoading
   },
-  [types.SET_TABLETS] (state, newTablets) {
-    state.tablets = newTablets
+  [types.SET_CONTROLLERS] (state, newControllers) {
+    state.controllers = newControllers
   },
   [types.SET_STINFOS] (state, newStInfos) {
     state.stInfos = newStInfos

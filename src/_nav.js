@@ -3,11 +3,7 @@ export default {
     {
       name: 'Dashboard',
       url: '/dashboard',
-      icon: 'icon-speedometer',
-      badge: {
-        variant: 'primary',
-        text: 'NEW'
-      }
+      icon: 'icon-speedometer'
     },
     {
       title: true,
@@ -16,31 +12,28 @@ export default {
     {
       name: 'Dashboard',
       url: '/dashboard',
-      icon: 'icon-speedometer',
+      icon: 'icon-speedometer'
+    },
+    {
+      name: 'Controllers',
+      url: '/controllers',
+      icon: 'icon-list'
+    },
+    {
+      name: 'Alerts',
+      url: '/alerts',
+      icon: 'icon-map',
       badge: {
         variant: 'primary',
         text: 'NEW'
       }
     },
     {
-      name: 'Tablets',
-      url: '/tablets',
-      icon: 'icon-list',
-      badge: {
-        variant: 'danger',
-        text: 'NEW'
-      }
-    },
-    {
       name: 'Logs',
       url: '/logs',
-      icon: 'icon-folder',
-      badge: {
-        variant: 'danger',
-        text: 'NEW'
-      }
+      icon: 'icon-folder'
     },
-    {
+    /* {
       name: 'Maps',
       url: '/maps',
       icon: 'icon-map',
@@ -48,7 +41,7 @@ export default {
         variant: 'danger',
         text: 'NEW'
       }
-    },
+    }, */
     {
       title: true,
       name: 'UI elements'

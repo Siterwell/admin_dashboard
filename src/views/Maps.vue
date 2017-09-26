@@ -1,126 +1,35 @@
 <template>
-   <div class="animated fadeIn">
-    <pulse-loader class="spin-c" :loading="loading"></pulse-loader>
-    <div v-if="!loading" class="row justify-content-end">
-      <div class="col-lg-3">
-        <b-form-input
-          @keyup.enter="startSearch"
-          v-model="search"
-          type="text"
-          placeholder="Search...">
-        </b-form-input>
-      </div>
-    </div>
-    <div v-if="!loading" class="row">
-      <div class="col-lg-12">
-        <b-card header="<i class='fa fa-align-justify'></i> Logs">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Tablet name</th>
-                <th>Title</th>
-                <th>Desc</th>
-                <th>latest update time</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="log in logs">
-                <td>{{ getTabletName(log.content.parms) }}</td>
-                <td>{{ log.title }}</td>
-                <td>{{ log.desc }}</td>
-                <td>{{ lastTime(log.updatedAt) }}</td>
-              </tr>
-            </tbody>
-          </table>
-          <paginate
-            :page-count="20"
-            :page-range="7"
-            :margin-pages="2"
-            :initial-page="getSelectPage"
-            :click-handler="clickCallback"
-            :prev-text="'Prev'"
-            :next-text="'Next'"
-            :container-class="'pagination'"
-            :page-class="'page-item'">
-          </paginate>
-        </b-card>
-      </div><!--/.col-->
-    </div><!--/.row-->
-   </div>
+    <gmap-map
+  :center="{lat:10, lng:10}"
+  :zoom="7"
+  map-type-id="terrain"
+  style="width: 500px; height: 300px"
+></gmap-map>
+  
 </template>
 
 <script>
-import api from '../api'
-import { mapGetters, mapActions } from 'vuex'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
-import Paginate from 'vuejs-paginate'
+import Vue from 'vue'
+import * as VueGoogleMaps from 'vue2-google-maps'
+Vue.use(VueGoogleMaps, {
+  load: {
+    key: 'AIzaSyD6WUtGUrpwz87rLzcYXBK7lGfOta90zqo',
+    libraries: 'places' // This is required if you use the Autocomplete plugin
+    // OR: libraries: 'places,drawing'
+    // OR: libraries: 'places,drawing,visualization'
+    // (as you require)
+  }
+})
 
 export default {
   name: 'maps',
   components: {
-    PulseLoader,
-    Paginate
+    PulseLoader
   },
   data () {
     return {
-      logs: [],
-      nowPage: 0,
-      search: ''
-    }
-  },
-  created () {
-    this.setLoading(true)
-
-    api.request('get', 'api/1/logs?logType=message&limit=50')
-      .then(response => {
-        console.log(response.data.results)
-        this.logs = response.data.results
-        this.setLoading(false)
-      })
-      .catch(error => {
-        console.log(error)
-        this.setLoading(false)
-      })
-  },
-  computed: {
-    ...mapGetters({
-      loading: 'isLoading'
-    }),
-    getSelectPage: function () {
-      return this.nowPage
-    }
-  },
-  methods: {
-    ...mapActions([
-      'setLoading'
-    ]),
-    startSearch: function (e) {
-      console.log('ssss ' + this.search)
-    },
-    lastTime: function (time) {
-      return time
-    },
-    getTabletName: function (items) {
-      for (let i = 0; i < items.length; i++) {
-        if (items[i].key === 'controllerName') {
-          return items[i].value
-        }
-      }
-    },
-    clickCallback: function (pageNum) {
-      this.setLoading(true)
-      let path = 'api/1/logs?logType=message&limit=50&offset=' + ((pageNum - 1) * 50)
-      api.request('get', path)
-        .then(response => {
-          // console.log(response.data.results)
-          this.logs = response.data.results
-          this.nowPage = pageNum - 1
-          this.setLoading(false)
-        })
-        .catch(error => {
-          console.log(error)
-          this.setLoading(false)
-        })
+      logs: []
     }
   }
 }

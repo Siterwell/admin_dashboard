@@ -8,8 +8,8 @@ export default {
   isLoading: state => {
     return state.loading
   },
-  getTablets: state => {
-    return state.tablets
+  getControllers: state => {
+    return state.controllers
   },
   getStInfos: state => {
     return state.stInfos

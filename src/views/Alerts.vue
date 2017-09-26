@@ -18,9 +18,9 @@
             <thead>
               <tr>
                 <th>Controller name</th>
-                <th>Log title</th>
-                <th>Log desc</th>
-                <th>Occurred time</th>
+                <th>Title</th>
+                <th>Desc</th>
+                <th>latest update time</th>
               </tr>
             </thead>
             <tbody>
@@ -56,7 +56,7 @@ import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import Paginate from 'vuejs-paginate'
 
 export default {
-  name: 'logs',
+  name: 'alerts',
   components: {
     PulseLoader,
     Paginate

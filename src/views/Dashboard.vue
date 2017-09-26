@@ -27,7 +27,7 @@ import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import PieExample from './charts/PieExample'
 
 export default {
-  name: 'tablets',
+  name: 'controllers',
   components: {
     PulseLoader,
     PieExample
@@ -42,7 +42,7 @@ export default {
     api.request('get', 'api/1/controllers')
       .then(response => {
         console.log(response.data.results.controllers)
-        this.setTablets(response.data.results.controllers)
+        this.setControllers(response.data.results.controllers)
         this.setLoading(false)
       })
       .catch(error => {
@@ -53,16 +53,16 @@ export default {
   computed: {
     ...mapGetters({
       loading: 'isLoading',
-      tabletList: 'getTablets'
+      controllerList: 'getControllers'
     }),
     getAvgFamilyAccount: function () {
       let avgFA = [0, 0, 0, 0]
-      for (let i = 0; i < this.tabletList.length; i++) {
-        if (this.tabletList[i].privGroups.length >= 4) {
+      for (let i = 0; i < this.controllerList.length; i++) {
+        if (this.controllerList[i].privGroups.length >= 4) {
           avgFA[3]++
-        } else if (this.tabletList[i].privGroups.length >= 3) {
+        } else if (this.controllerList[i].privGroups.length >= 3) {
           avgFA[2]++
-        } else if (this.tabletList[i].privGroups.length >= 2) {
+        } else if (this.controllerList[i].privGroups.length >= 2) {
           avgFA[1]++
         } else {
           avgFA[0]++
@@ -87,15 +87,15 @@ export default {
     },
     getDevCnt: function () {
       let avgDC = [0, 0, 0, 0]
-      for (let i = 0; i < this.tabletList.length; i++) {
-        if (!this.tabletList[i].devices) {
+      for (let i = 0; i < this.controllerList.length; i++) {
+        if (!this.controllerList[i].devices) {
           continue
         }
-        if (this.tabletList[i].devices.length >= 14) {
+        if (this.controllerList[i].devices.length >= 14) {
           avgDC[3]++
-        } else if (this.tabletList[i].devices.length >= 9) {
+        } else if (this.controllerList[i].devices.length >= 9) {
           avgDC[2]++
-        } else if (this.tabletList[i].devices.length >= 4) {
+        } else if (this.controllerList[i].devices.length >= 4) {
           avgDC[1]++
         } else {
           avgDC[0]++
@@ -124,7 +124,7 @@ export default {
   methods: {
     ...mapActions([
       'setLoading',
-      'setTablets'
+      'setControllers'
     ])
   }
 }
