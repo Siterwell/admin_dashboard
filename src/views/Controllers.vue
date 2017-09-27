@@ -151,7 +151,7 @@ export default {
     },
     changePage: function (row) {
       console.log(row.num + row.controllerId)
-      this.$router.push('/alerts')
+      this.$router.push('/alerts?name=' + row.name + '&controllerId=' + row.controllerId)
     }
   }
 }

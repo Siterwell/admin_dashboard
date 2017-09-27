@@ -4,6 +4,7 @@
     <div v-if="!loading" class="row">
       <div class="col-lg-12">
         <b-card header="<i class='fa fa-align-justify'></i> Alerts Info">
+          <input type="text" v-model="searchTerm" />
           <vue-good-table
             title="Alerts Info"
             :columns="columns"
@@ -12,6 +13,7 @@
             rowsPerPageText="Alerts per page"
             :lineNumbers="true"
             :globalSearch="true"
+            :externalSearchQuery="searchTerm"
             styleClass="table table-bordered table-striped">
           </vue-good-table>
         </b-card>
@@ -36,6 +38,7 @@ export default {
   data () {
     return {
       alerts: [],
+      searchTerm: this.$route.query.name,
       columns: [
         {
           label: 'Name',
@@ -59,6 +62,7 @@ export default {
   },
   created () {
     this.getAlerts()
+    console.log('!!!!!' + this.$route.query.controllerId)
   },
   computed: {
     ...mapGetters({
