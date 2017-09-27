@@ -34,7 +34,7 @@
           </table>
           <paginate
             :page-count="20"
-            :page-range="7"
+            :page-range="3"
             :margin-pages="2"
             :initial-page="getSelectPage"
             :click-handler="clickCallback"

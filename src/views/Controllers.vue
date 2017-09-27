@@ -8,8 +8,8 @@
             <thead>
               <tr>
                 <th>Name</th>
-                <th>controllerId</th>
-                <th>latest update time</th>
+                <th>ControllerId</th>
+                <th>Latest updated time</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -17,7 +17,7 @@
               <tr v-for="controller in controllerList">
                 <td>{{ controller.name }}</td>
                 <td>{{ controller.controllerId }}</td>
-                <td>{{ lastTime(controller.updatedAt) }}</td>
+                <td>{{ controller.updatedAt }}</td>
                 <td>
                   <span :class="isOnlineClass(controller.active)">{{ isOnline(controller.active) }}</span>
                 </td>
@@ -25,10 +25,10 @@
             </tbody>
           </table>
           <paginate
-            :page-count="controllersNum"
+            :page-count="changePageCount"
             :page-range="3"
             :margin-pages="2"
-            :click-handler="clickCallback"
+            :click-handler="changePage"
             :prev-text="'Prev'"
             :next-text="'Next'"
             :container-class="'pagination'"
@@ -47,6 +47,8 @@ import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import PieExample from './charts/PieExample'
 import Paginate from 'vuejs-paginate'
 
+const PER_PAGE = 2
+
 export default {
   name: 'controllers',
   components: {
@@ -56,7 +58,9 @@ export default {
   },
   data () {
     return {
-      controllersNum: 0
+      pagination: {
+        controllersNum: 1
+      }
     }
   },
   created () {
@@ -67,7 +71,7 @@ export default {
         console.log(response.data.results.controllers)
         this.setControllers(response.data.results.controllers)
         this.setLoading(false)
-        this.controllertsNum = response.data.results.controllers.length / 20
+        this.pagination.controllertsNum = response.data.results.controllers.length / PER_PAGE
       })
       .catch(error => {
         console.log(error)
@@ -78,7 +82,10 @@ export default {
     ...mapGetters({
       loading: 'isLoading',
       controllerList: 'getControllers'
-    })
+    }),
+    changePageCount: function () {
+      return this.pagination.controllertsNum
+    }
   },
   methods: {
     ...mapActions([
@@ -107,22 +114,9 @@ export default {
         return 'Unknown'
       }
     },
-    lastTime: function (time) {
-      return time
-    },
-    clickCallback: function (pageNum) {
-      let path = 'api/1/logs?limit=50&offset=' + ((pageNum - 1) * 50)
-      api.request('get', path)
-        .then(response => {
-          // console.log(response.data.results)
-          this.logs = response.data.results
-          this.nowPage = pageNum - 1
-          this.setLoading(false)
-        })
-        .catch(error => {
-          console.log(error)
-          this.setLoading(false)
-        })
+    // Pagnation
+    changePage: function (pageIndex) {
+      console.log(pageIndex)
     }
   }
 }
