@@ -19,11 +19,11 @@
                 <th>Controller name</th>
                 <th>Title</th>
                 <th>Desc</th>
-                <th>latest update time</th>
+                <th>Latest updated time</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="alert in alerts">
+              <tr v-for="alert in getDisplayData">
                 <td>{{ getControllerName(alert.content.parms) }}</td>
                 <td>{{ alert.title }}</td>
                 <td>{{ alert.desc }}</td>
@@ -32,11 +32,10 @@
             </tbody>
           </table>
           <paginate
-            :page-count="20"
-            :page-range="7"
+            :page-count="getPageLength"
+            :page-range="3"
             :margin-pages="2"
-            :initial-page="getSelectPage"
-            :click-handler="changePage"
+            :click-handler="changePageIndex"
             :prev-text="'Prev'"
             :next-text="'Next'"
             :container-class="'pagination'"
@@ -56,6 +55,8 @@ import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import Paginate from 'vuejs-paginate'
 import vSelect from 'vue-select'
 
+const PER_PAGE = 30
+
 export default {
   name: 'alerts',
   components: {
@@ -66,8 +67,13 @@ export default {
   data () {
     return {
       alerts: [],
-      nowPage: 0,
-      search: '',
+      table: {
+        displayData: []
+      },
+      pagination: {
+        length: 1,
+        index: 1
+      },
       filter: {
         selected: null,
         controllerNames: ['All', '1']
@@ -81,8 +87,13 @@ export default {
     ...mapGetters({
       loading: 'isLoading'
     }),
-    getSelectPage: function () {
-      return this.nowPage
+    // Pagnation
+    getPageLength: function () {
+      console.log(this.pagination.length)
+      return this.pagination.length
+    },
+    getDisplayData: function () {
+      return this.table.displayData
     }
   },
   methods: {
@@ -90,16 +101,23 @@ export default {
       'setLoading'
     ]),
     // axios
-    getAlerts: function (pageNum) {
+    getAlerts: function (pageIndex) {
       this.setLoading(true)
-      let path = 'api/1/logs?logType=message&limit=50&offset=' + ((pageNum - 1) * 50)
+      let path = 'api/1/logs?logType=message&limit=200'
       api.request('get', path)
         .then(response => {
           // console.log(response.data.results)
+          // Model data
           this.alerts = response.data.results
-          this.nowPage = pageNum - 1
-          this.refreshOption()
+          console.log(this.alerts.length)
+          // UI loading
           this.setLoading(false)
+          // Pagination
+          this.pagination.length = Math.ceil(this.alerts.length / PER_PAGE)
+          // Filter
+          this.refreshOption()
+          // Table
+          this.changePageIndex(1)
         })
         .catch(error => {
           console.log(error)
@@ -128,8 +146,14 @@ export default {
         }
       }
     },
-    changePage: function (pageNum) {
-      this.getAlerts(pageNum)
+    // Pagnation
+    changePageIndex: function (pageIndex) {
+      this.pagination.index = pageIndex
+      // console.log(pageIndex)
+      this.table.displayData = []
+      for (let i = (pageIndex - 1) * PER_PAGE; i < this.alerts.length && i < (pageIndex * PER_PAGE); i++) {
+        this.table.displayData.push(this.alerts[i])
+      }
     }
   }
 }
