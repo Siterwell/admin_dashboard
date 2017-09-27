@@ -4,36 +4,27 @@
     <div v-if="!loading" class="row">
       <div class="col-lg-12">
         <b-card header="<i class='fa fa-align-justify'></i> Controllers Info">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>ControllerId</th>
-                <th>Latest updated time</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="controller in getDisplayData">
-                <td>{{ controller.name }}</td>
-                <td>{{ controller.controllerId }}</td>
-                <td>{{ controller.updatedAt }}</td>
-                <td>
-                  <span :class="isOnlineClass(controller.active)">{{ isOnline(controller.active) }}</span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <paginate
-            :page-count="getPageLength"
-            :page-range="3"
-            :margin-pages="2"
-            :click-handler="changePageIndex"
-            :prev-text="'Prev'"
-            :next-text="'Next'"
-            :container-class="'pagination'"
-            :page-class="'page-item'">
-          </paginate>
+          <vue-good-table
+            title="Controllers Info"
+            :columns="columns"
+            :rows="getRows"
+            :paginate="true"
+            rowsPerPageText="Controller per page"
+            :lineNumbers="true"
+            :globalSearch="true"
+            styleClass="table table-bordered table-striped">
+            <template slot="table-row" scope="props">
+              <td>{{ props.row.name }}</td>
+              <td>{{ props.row.controllerId }}</td>
+              <td>{{ props.row.updated }}</td>
+              <td>
+                <span :class="isOnlineClass(props.row.status)">{{ isOnline(props.row.status) }}</span>
+              </td>
+              <td>
+                <button v-if="props.row.num !== 0" @click="changePage(props.row)" class="editbtn">{{ props.row.num }}</button>
+              </td>
+            </template>
+          </vue-good-table>
         </b-card>
       </div><!--/.col-->
     </div><!--/.row-->
@@ -44,27 +35,40 @@
 import api from '../api'
 import { mapGetters, mapActions } from 'vuex'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
-import Paginate from 'vuejs-paginate'
-import vSelect from 'vue-select'
-
-const PER_PAGE = 10
+import VueGoodTable from 'vue-good-table/src/components/table.vue'
 
 export default {
   name: 'controllers',
   components: {
     PulseLoader,
-    Paginate,
-    vSelect
+    VueGoodTable
   },
   data () {
     return {
-      table: {
-        displayData: []
-      },
-      pagination: {
-        length: 1,
-        index: 1
-      }
+      alerts: [],
+      columns: [
+        {
+          label: 'Name',
+          field: 'name'
+        },
+        {
+          label: 'ControllerId',
+          field: 'controllerId'
+        },
+        {
+          label: 'Latest updated time',
+          field: 'updated'
+        },
+        {
+          label: 'Status',
+          field: 'status'
+        },
+        {
+          label: 'Num',
+          field: 'num'
+        }
+      ],
+      rows: []
     }
   },
   created () {
@@ -72,15 +76,24 @@ export default {
 
     api.request('get', 'api/1/controllers')
       .then(response => {
-        console.log(response.data.results.controllers)
+        // console.log(response.data.results.controllers)
         // Model data
         this.setControllers(response.data.results.controllers)
-        // UI loading
-        this.setLoading(false)
-        // Pagination
-        this.pagination.length = Math.ceil(response.data.results.controllers.length / PER_PAGE)
-        // Table
-        this.changePageIndex(1)
+        let path = 'api/1/logs?logType=message&limit=200'
+        api.request('get', path)
+          .then(response => {
+            // console.log(response.data.results)
+            // Model data
+            this.alerts = response.data.results
+
+            this.generateRows()
+            // UI loading
+            this.setLoading(false)
+          })
+          .catch(error => {
+            console.log(error)
+            this.setLoading(false)
+          })
       })
       .catch(error => {
         console.log(error)
@@ -92,12 +105,8 @@ export default {
       loading: 'isLoading',
       controllerList: 'getControllers'
     }),
-    // Pagnation
-    getPageLength: function () {
-      return this.pagination.length
-    },
-    getDisplayData: function () {
-      return this.table.displayData
+    getRows: function () {
+      return this.rows
     }
   },
   methods: {
@@ -127,14 +136,22 @@ export default {
         return 'Unknown'
       }
     },
-    // Pagnation
-    changePageIndex: function (pageIndex) {
-      this.pagination.index = pageIndex
-      // console.log(pageIndex)
-      this.table.displayData = []
-      for (let i = (pageIndex - 1) * PER_PAGE; i < this.controllerList.length && i < (pageIndex * PER_PAGE); i++) {
-        this.table.displayData.push(this.controllerList[i])
+    generateRows: function () {
+      this.rows = []
+      for (let i = 0; i < this.controllerList.length; i++) {
+        let obj = {
+          name: this.controllerList[i].name,
+          controllerId: this.controllerList[i].controllerId,
+          updated: this.controllerList[i].updatedAt,
+          status: this.controllerList[i].active,
+          num: i % 5
+        }
+        this.rows.push(obj)
       }
+    },
+    changePage: function (row) {
+      console.log(row.num + row.controllerId)
+      this.$router.push('/alerts')
     }
   }
 }
