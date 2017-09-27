@@ -29,6 +29,15 @@ export default {
       }
     },
     {
+      name: 'Alerts2',
+      url: '/alerts2',
+      icon: 'icon-map',
+      badge: {
+        variant: 'primary',
+        text: 'NEW'
+      }
+    },
+    {
       name: 'Logs',
       url: '/logs',
       icon: 'icon-folder'

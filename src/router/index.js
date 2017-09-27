@@ -13,6 +13,7 @@ import Controllers from '@/views/Controllers'
 import Logs from '@/views/Logs'
 import Maps from '@/views/Maps'
 import Alerts from '@/views/Alerts'
+import Alerts2 from '@/views/Alerts2'
 
 // Views - Components
 import Buttons from '@/views/components/Buttons'
@@ -69,6 +70,12 @@ export default new Router({
           path: 'alerts',
           name: 'Alerts',
           component: Alerts,
+          meta: { requiresAuth: true }
+        },
+        {
+          path: 'alerts2',
+          name: 'Alerts2',
+          component: Alerts2,
           meta: { requiresAuth: true }
         },
         {
