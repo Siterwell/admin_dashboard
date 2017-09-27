@@ -1,49 +1,22 @@
 <template>
    <div class="animated fadeIn">
     <pulse-loader class="spin-c" :loading="loading"></pulse-loader>
-    <div v-if="!loading" class="row justify-content-end">
-      <div class="col-lg-3">
-        <v-select 
-          :value.sync="filter.selected" 
-          :on-change="filterChange"
-          :options="filter.controllerNames">
-        </v-select>
-      </div>
-    </div>
     <div v-if="!loading" class="row">
       <div class="col-lg-12">
-        <b-card header="<i class='fa fa-align-justify'></i> Logs">
-          <table class="table table-striped">
-            <thead>
-              <tr>
-                <th>Controller name</th>
-                <th>Title</th>
-                <th>Desc</th>
-                <th>Latest updated time</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr v-for="alert in getDisplayData">
-                <td>{{ getControllerName(alert.content.parms) }}</td>
-                <td>{{ alert.title }}</td>
-                <td>{{ alert.desc }}</td>
-                <td>{{ alert.updatedAt }}</td>
-              </tr>
-            </tbody>
-          </table>
-          <paginate
-            :page-count="getPageLength"
-            :page-range="3"
-            :margin-pages="2"
-            :click-handler="changePageIndex"
-            :prev-text="'Prev'"
-            :next-text="'Next'"
-            :container-class="'pagination'"
-            :page-class="'page-item'">
-          </paginate>
+        <b-card header="<i class='fa fa-align-justify'></i> Alerts Info">
+          <vue-good-table
+            title="Alerts Info"
+            :columns="columns"
+            :rows="getRows"
+            :paginate="true"
+            rowsPerPageText="Alerts per page"
+            :lineNumbers="true"
+            :globalSearch="true"
+            styleClass="table table-bordered table-striped">
+          </vue-good-table>
         </b-card>
-      </div><!--/.col-->
-    </div><!--/.row-->
+       </div><!--/.col-->
+    </div><!--/.row-->  
    </div>
 </template>
 
@@ -52,47 +25,47 @@
 import api from '../api'
 import { mapGetters, mapActions } from 'vuex'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
-import Paginate from 'vuejs-paginate'
-import vSelect from 'vue-select'
-
-const PER_PAGE = 30
+import VueGoodTable from 'vue-good-table/src/components/table.vue'
 
 export default {
   name: 'alerts',
   components: {
     PulseLoader,
-    Paginate,
-    vSelect
+    VueGoodTable
   },
   data () {
     return {
       alerts: [],
-      table: {
-        displayData: []
-      },
-      pagination: {
-        length: 1,
-        index: 1
-      },
-      filter: {
-        selected: null,
-        controllerNames: ['All', '1']
-      }
+      columns: [
+        {
+          label: 'Name',
+          field: 'name'
+        },
+        {
+          label: 'Title',
+          field: 'title'
+        },
+        {
+          label: 'Desc',
+          field: 'desc'
+        },
+        {
+          label: 'Occurred Time',
+          field: 'occurred'
+        }
+      ],
+      rows: []
     }
   },
   created () {
-    this.getAlerts(1)
+    this.getAlerts()
   },
   computed: {
     ...mapGetters({
       loading: 'isLoading'
     }),
-    // Pagnation
-    getPageLength: function () {
-      return this.pagination.length
-    },
-    getDisplayData: function () {
-      return this.table.displayData
+    getRows: function () {
+      return this.rows
     }
   },
   methods: {
@@ -100,7 +73,7 @@ export default {
       'setLoading'
     ]),
     // axios
-    getAlerts: function (pageIndex) {
+    getAlerts: function () {
       this.setLoading(true)
       let path = 'api/1/logs?logType=message&limit=200'
       api.request('get', path)
@@ -108,38 +81,14 @@ export default {
           // console.log(response.data.results)
           // Model data
           this.alerts = response.data.results
+          this.generateRows()
           // UI loading
           this.setLoading(false)
-          // Pagination
-          this.pagination.length = Math.ceil(this.alerts.length / PER_PAGE)
-          // Filter
-          this.refreshOption()
-          // Table
-          this.changePageIndex(1)
         })
         .catch(error => {
           console.log(error)
           this.setLoading(false)
         })
-    },
-    // Select
-    filterChange: function (val) {
-      console.dir(JSON.stringify(val))
-      // Change display data
-
-      // Change page
-      this.pagination.index = 1
-      // Change select
-    },
-    refreshOption: function () {
-      // let data = Vue._.uniqBy(this.alerts, 'title')
-      // console.log('refreshOption' + data)
-      this.filter.selected = 'all'
-      this.filter.controllerNames = [
-        { value: 1, label: 'all' },
-        { value: 2, label: 'Demo_House' },
-        { value: 3, label: 'ryan-usa' }
-      ]
     },
     // Alert table
     getControllerName: function (items) {
@@ -149,13 +98,18 @@ export default {
         }
       }
     },
-    // Pagnation
-    changePageIndex: function (pageIndex) {
-      this.pagination.index = pageIndex
-      // console.log(pageIndex)
-      this.table.displayData = []
-      for (let i = (pageIndex - 1) * PER_PAGE; i < this.alerts.length && i < (pageIndex * PER_PAGE); i++) {
-        this.table.displayData.push(this.alerts[i])
+    generateRows: function () {
+      this.rows = []
+      for (let i = 0; i < this.alerts.length; i++) {
+        let name = this.getControllerName(this.alerts[i].content.parms)
+        let title = !this.alerts[i].title ? 'unknown' : this.alerts[i].title
+        let obj = {
+          name: name,
+          title: title,
+          desc: this.alerts[i].desc,
+          occurred: this.alerts[i].updatedAt
+        }
+        this.rows.push(obj)
       }
     }
   }
