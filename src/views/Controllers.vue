@@ -14,7 +14,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="controller in controllerList">
+              <tr v-for="controller in getDisplayControllers">
                 <td>{{ controller.name }}</td>
                 <td>{{ controller.controllerId }}</td>
                 <td>{{ controller.updatedAt }}</td>
@@ -25,10 +25,10 @@
             </tbody>
           </table>
           <paginate
-            :page-count="changePageCount"
+            :page-count="getPageLength"
             :page-range="3"
             :margin-pages="2"
-            :click-handler="changePage"
+            :click-handler="changePageIndex"
             :prev-text="'Prev'"
             :next-text="'Next'"
             :container-class="'pagination'"
@@ -47,7 +47,7 @@ import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import PieExample from './charts/PieExample'
 import Paginate from 'vuejs-paginate'
 
-const PER_PAGE = 2
+const PER_PAGE = 10
 
 export default {
   name: 'controllers',
@@ -58,8 +58,12 @@ export default {
   },
   data () {
     return {
+      table: {
+        displayControllers: []
+      },
       pagination: {
-        controllersNum: 1
+        length: 1,
+        index: 1
       }
     }
   },
@@ -71,7 +75,8 @@ export default {
         console.log(response.data.results.controllers)
         this.setControllers(response.data.results.controllers)
         this.setLoading(false)
-        this.pagination.controllertsNum = response.data.results.controllers.length / PER_PAGE
+        this.pagination.length = response.data.results.controllers.length / PER_PAGE
+        this.changePageIndex(1)
       })
       .catch(error => {
         console.log(error)
@@ -83,8 +88,11 @@ export default {
       loading: 'isLoading',
       controllerList: 'getControllers'
     }),
-    changePageCount: function () {
-      return this.pagination.controllertsNum
+    getPageLength: function () {
+      return this.pagination.length
+    },
+    getDisplayControllers: function () {
+      return this.table.displayControllers
     }
   },
   methods: {
@@ -115,8 +123,13 @@ export default {
       }
     },
     // Pagnation
-    changePage: function (pageIndex) {
+    changePageIndex: function (pageIndex) {
+      this.pagination.index = pageIndex
       console.log(pageIndex)
+      this.table.displayControllers = []
+      for (let i = (pageIndex - 1) * PER_PAGE; i < this.controllerList.length && i < (pageIndex * PER_PAGE); i++) {
+        this.table.displayControllers.push(this.controllerList[i])
+      }
     }
   }
 }
