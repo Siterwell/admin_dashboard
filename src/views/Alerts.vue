@@ -89,7 +89,6 @@ export default {
     }),
     // Pagnation
     getPageLength: function () {
-      console.log(this.pagination.length)
       return this.pagination.length
     },
     getDisplayData: function () {
@@ -109,7 +108,6 @@ export default {
           // console.log(response.data.results)
           // Model data
           this.alerts = response.data.results
-          console.log(this.alerts.length)
           // UI loading
           this.setLoading(false)
           // Pagination
@@ -127,6 +125,11 @@ export default {
     // Select
     filterChange: function (val) {
       console.dir(JSON.stringify(val))
+      // Change display data
+
+      // Change page
+      this.pagination.index = 1
+      // Change select
     },
     refreshOption: function () {
       // let data = Vue._.uniqBy(this.alerts, 'title')

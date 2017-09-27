@@ -78,7 +78,7 @@ export default {
         // UI loading
         this.setLoading(false)
         // Pagination
-        this.pagination.length = response.data.results.controllers.length / PER_PAGE
+        this.pagination.length = Math.ceil(response.data.results.controllers.length / PER_PAGE)
         // Table
         this.changePageIndex(1)
       })
