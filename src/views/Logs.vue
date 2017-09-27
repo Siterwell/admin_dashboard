@@ -69,18 +69,7 @@ export default {
     }
   },
   created () {
-    this.setLoading(true)
-
-    api.request('get', 'api/1/logs?logType=message&limit=50')
-      .then(response => {
-        console.log(response.data.results)
-        this.logs = response.data.results
-        this.setLoading(false)
-      })
-      .catch(error => {
-        console.log(error)
-        this.setLoading(false)
-      })
+    this.getLogs(1)
   },
   computed: {
     ...mapGetters({
@@ -94,6 +83,22 @@ export default {
     ...mapActions([
       'setLoading'
     ]),
+    // axios
+    getLogs: function (pageNum) {
+      this.setLoading(true)
+      let path = 'api/1/logs?logType=message&limit=50&offset=' + ((pageNum - 1) * 50)
+      api.request('get', path)
+        .then(response => {
+          // console.log(response.data.results)
+          this.logs = response.data.results
+          this.nowPage = pageNum - 1
+          this.setLoading(false)
+        })
+        .catch(error => {
+          console.log(error)
+          this.setLoading(false)
+        })
+    },
     startSearch: function (e) {
       console.log('ssss ' + this.search)
     },
@@ -108,19 +113,7 @@ export default {
       }
     },
     clickCallback: function (pageNum) {
-      this.setLoading(true)
-      let path = 'api/1/logs?logType=message&limit=50&offset=' + ((pageNum - 1) * 50)
-      api.request('get', path)
-        .then(response => {
-          // console.log(response.data.results)
-          this.logs = response.data.results
-          this.nowPage = pageNum - 1
-          this.setLoading(false)
-        })
-        .catch(error => {
-          console.log(error)
-          this.setLoading(false)
-        })
+      this.getLogs(pageNum)
     }
   }
 }

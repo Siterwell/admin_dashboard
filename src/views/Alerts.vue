@@ -3,12 +3,11 @@
     <pulse-loader class="spin-c" :loading="loading"></pulse-loader>
     <div v-if="!loading" class="row justify-content-end">
       <div class="col-lg-3">
-        <b-form-input
-          @keyup.enter="startSearch"
-          v-model="search"
-          type="text"
-          placeholder="Search...">
-        </b-form-input>
+        <v-select 
+          :value.sync="filter.selected" 
+          :on-change="filterChange"
+          :options="filter.controllerNames">
+        </v-select>
       </div>
     </div>
     <div v-if="!loading" class="row">
@@ -24,11 +23,11 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="log in logs">
-                <td>{{ getControllerName(log.content.parms) }}</td>
-                <td>{{ log.title }}</td>
-                <td>{{ log.desc }}</td>
-                <td>{{ lastTime(log.updatedAt) }}</td>
+              <tr v-for="alert in alerts">
+                <td>{{ getControllerName(alert.content.parms) }}</td>
+                <td>{{ alert.title }}</td>
+                <td>{{ alert.desc }}</td>
+                <td>{{ alert.updatedAt }}</td>
               </tr>
             </tbody>
           </table>
@@ -37,7 +36,7 @@
             :page-range="7"
             :margin-pages="2"
             :initial-page="getSelectPage"
-            :click-handler="clickCallback"
+            :click-handler="changePage"
             :prev-text="'Prev'"
             :next-text="'Next'"
             :container-class="'pagination'"
@@ -50,37 +49,33 @@
 </template>
 
 <script>
+// import Vue from 'vue'
 import api from '../api'
 import { mapGetters, mapActions } from 'vuex'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
 import Paginate from 'vuejs-paginate'
+import vSelect from 'vue-select'
 
 export default {
   name: 'alerts',
   components: {
     PulseLoader,
-    Paginate
+    Paginate,
+    vSelect
   },
   data () {
     return {
-      logs: [],
+      alerts: [],
       nowPage: 0,
-      search: ''
+      search: '',
+      filter: {
+        selected: null,
+        controllerNames: ['All', '1']
+      }
     }
   },
   created () {
-    this.setLoading(true)
-
-    api.request('get', 'api/1/logs?logType=message&limit=50')
-      .then(response => {
-        console.log(response.data.results)
-        this.logs = response.data.results
-        this.setLoading(false)
-      })
-      .catch(error => {
-        console.log(error)
-        this.setLoading(false)
-      })
+    this.getAlerts(1)
   },
   computed: {
     ...mapGetters({
@@ -94,12 +89,38 @@ export default {
     ...mapActions([
       'setLoading'
     ]),
-    startSearch: function (e) {
-      console.log('ssss ' + this.search)
+    // axios
+    getAlerts: function (pageNum) {
+      this.setLoading(true)
+      let path = 'api/1/logs?logType=message&limit=50&offset=' + ((pageNum - 1) * 50)
+      api.request('get', path)
+        .then(response => {
+          // console.log(response.data.results)
+          this.alerts = response.data.results
+          this.nowPage = pageNum - 1
+          this.refreshOption()
+          this.setLoading(false)
+        })
+        .catch(error => {
+          console.log(error)
+          this.setLoading(false)
+        })
     },
-    lastTime: function (time) {
-      return time
+    // Select
+    filterChange: function (val) {
+      console.dir(JSON.stringify(val))
     },
+    refreshOption: function () {
+      // let data = Vue._.uniqBy(this.alerts, 'title')
+      // console.log('refreshOption' + data)
+      this.filter.selected = 'all'
+      this.filter.controllerNames = [
+        { value: 1, label: 'all' },
+        { value: 2, label: 'Demo_House' },
+        { value: 3, label: 'ryan-usa' }
+      ]
+    },
+    // Alert table
     getControllerName: function (items) {
       for (let i = 0; i < items.length; i++) {
         if (items[i].key === 'controllerName') {
@@ -107,20 +128,8 @@ export default {
         }
       }
     },
-    clickCallback: function (pageNum) {
-      this.setLoading(true)
-      let path = 'api/1/logs?logType=message&limit=50&offset=' + ((pageNum - 1) * 50)
-      api.request('get', path)
-        .then(response => {
-          // console.log(response.data.results)
-          this.logs = response.data.results
-          this.nowPage = pageNum - 1
-          this.setLoading(false)
-        })
-        .catch(error => {
-          console.log(error)
-          this.setLoading(false)
-        })
+    changePage: function (pageNum) {
+      this.getAlerts(pageNum)
     }
   }
 }

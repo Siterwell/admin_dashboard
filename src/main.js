@@ -6,6 +6,8 @@ import App from './App'
 import { sync } from 'vuex-router-sync'
 import router from './router'
 import store from './store'
+import lodash from 'lodash'
+import VueLodash from 'vue-lodash'
 // import apiArchitect from './plugin'
 
 // Check local storage to handle refreshes
@@ -46,7 +48,7 @@ router.beforeEach((to, from, next) => {
 
 // Vue.use(apiArchitect)
 Vue.use(BootstrapVue)
-
+Vue.use(VueLodash, lodash)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
