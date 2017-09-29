@@ -3,8 +3,8 @@
     <pulse-loader class="spin-c" :loading="loading"></pulse-loader>
     <div v-if="!loading" class="row">
       <div class="col-lg-12">
+        <input type="text" v-model="searchTerm" />
         <b-card header="<i class='fa fa-align-justify'></i> Alerts Info">
-          <input type="text" v-model="searchTerm" />
           <vue-good-table
             title="Alerts Info"
             :columns="columns"
@@ -88,6 +88,9 @@ export default {
           this.generateRows()
           // UI loading
           this.setLoading(false)
+          this.$nextTick(function () {
+            this.searchTerm = 'de'
+          })
         })
         .catch(error => {
           console.log(error)
