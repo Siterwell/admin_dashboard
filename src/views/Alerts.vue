@@ -3,10 +3,8 @@
     <pulse-loader class="spin-c" :loading="loading"></pulse-loader>
     <div v-if="!loading" class="row">
       <div class="col-lg-12">
-        <input type="text" v-model="searchTerm" />
-        <b-card header="<i class='fa fa-align-justify'></i> Alerts Info">
+        <b-card>
           <vue-good-table
-            title="Alerts Info"
             :columns="columns"
             :rows="getRows"
             :paginate="true"
@@ -49,11 +47,11 @@ export default {
           field: 'title'
         },
         {
-          label: 'Desc',
+          label: 'Descriptions',
           field: 'desc'
         },
         {
-          label: 'Occurred Time',
+          label: 'Time',
           field: 'occurred'
         }
       ],
