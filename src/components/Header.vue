@@ -4,16 +4,16 @@
     <b-link class="navbar-brand" to="#"></b-link>
     <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" @click="sidebarMinimize">&#9776;</button>
     <b-nav is-nav-bar class="d-md-down-none">
+
       <b-nav-item class="px-3" @click="tryRedirect('dashboard')">Dashboard</b-nav-item>
-      <b-nav-item class="px-3" @click="tryRedirect('controllers')">Controllers</b-nav-item>
+      <b-nav-item class="px-3" @click="tryRedirect('panels')">Panels</b-nav-item>
       <b-nav-item class="px-3" @click="tryRedirect('alerts')">Alerts</b-nav-item>
-      <b-nav-item class="px-3" @click="tryRedirect('logs')">Logs</b-nav-item>
     </b-nav>
     <b-nav is-nav-bar class="ml-auto">
-      <b-nav-item class="d-md-down-none">
-        <i class="icon-bell"></i><span v-if="stInfos.length > 0" class="badge badge-pill badge-danger">{{stInfos.length}}</span>
-      </b-nav-item>
       <!-- <b-nav-item class="d-md-down-none">
+        <i class="icon-bell"></i><span v-if="stInfos.length > 0" class="badge badge-pill badge-danger">{stInfos.length}</span>
+      </b-nav-item>
+      <b-nav-item class="d-md-down-none">
         <i class="icon-list"></i>
       </b-nav-item>
       <b-nav-item class="d-md-down-none">
@@ -21,7 +21,6 @@
       </b-nav-item> --> 
       <b-nav-item-dropdown right>
         <template slot="button-content">
-          <img src="static/img/avatars/9.png" class="img-avatar">
           <avatar :fullname="getName" :size="36" color="black" class="st-avatar"></avatar>
           <span class="d-md-down-none">{{getName}}</span>
         </template>

@@ -6,10 +6,9 @@ import Full from '@/containers/Full'
 
 // Views
 import Dashboard from '@/views/Dashboard'
-import Dashboard2 from '@/views/Dashboard2'
 import Charts from '@/views/Charts'
 import Widgets from '@/views/Widgets'
-import Controllers from '@/views/Controllers'
+import Panels from '@/views/Panels'
 import Logs from '@/views/Logs'
 import Maps from '@/views/Maps'
 import Alerts from '@/views/Alerts'
@@ -55,15 +54,9 @@ export default new Router({
           meta: { requiresAuth: true }
         },
         {
-          path: 'dashboard2',
-          name: 'Dashboard2',
-          component: Dashboard2,
-          meta: { requiresAuth: true }
-        },
-        {
-          path: 'controllers',
-          name: 'Controllers',
-          component: Controllers,
+          path: 'panels',
+          name: 'Panels',
+          component: Panels,
           meta: { requiresAuth: true }
         },
         {

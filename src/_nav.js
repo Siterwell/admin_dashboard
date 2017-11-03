@@ -1,6 +1,6 @@
 export default {
   items: [
-    {
+    /* {
       name: 'Dashboard',
       url: '/dashboard',
       icon: 'icon-speedometer'
@@ -8,15 +8,15 @@ export default {
     {
       title: true,
       name: 'Functionality'
-    },
+    }, */
     {
       name: 'Dashboard',
       url: '/dashboard',
       icon: 'icon-speedometer'
     },
     {
-      name: 'Controllers',
-      url: '/controllers',
+      name: 'Panels',
+      url: '/panels',
       icon: 'icon-list'
     },
     {
@@ -27,8 +27,8 @@ export default {
         variant: 'primary',
         text: 'NEW'
       }
-    },
-    {
+    }
+    /* {
       name: 'Alerts2',
       url: '/alerts2',
       icon: 'icon-map',
@@ -42,7 +42,7 @@ export default {
       url: '/logs',
       icon: 'icon-folder'
     },
-    /* {
+    {
       name: 'Maps',
       url: '/maps',
       icon: 'icon-map',
@@ -50,7 +50,7 @@ export default {
         variant: 'danger',
         text: 'NEW'
       }
-    }, */
+    },
     {
       title: true,
       name: 'UI elements'
@@ -157,6 +157,6 @@ export default {
           icon: 'icon-star'
         }
       ]
-    }
+    } */
   ]
 }
