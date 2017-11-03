@@ -59,7 +59,7 @@ export default {
     }
   },
   created () {
-    this.getAlerts()
+    this.getAlerts(this.$route.query.name)
     console.log('!!!!!' + this.$route.query.controllerId)
   },
   computed: {
@@ -75,7 +75,7 @@ export default {
       'setLoading'
     ]),
     // axios
-    getAlerts: function () {
+    getAlerts: function (searchText) {
       this.setLoading(true)
       let path = 'api/1/logs?logType=message&limit=200'
       api.request('get', path)
@@ -87,7 +87,7 @@ export default {
           // UI loading
           this.setLoading(false)
           this.$nextTick(function () {
-            this.searchTerm = 'de'
+            this.searchTerm = searchText
           })
         })
         .catch(error => {
