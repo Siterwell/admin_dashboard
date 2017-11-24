@@ -17,16 +17,22 @@ export default {
     {
       name: 'Panels',
       url: '/panels',
-      icon: 'icon-list'
+      icon: 'icon-screen-desktop'
     },
     {
       name: 'Alerts',
       url: '/alerts',
-      icon: 'icon-map',
-      badge: {
-        variant: 'primary',
-        text: 'NEW'
-      }
+      icon: 'icon-bell'
+    },
+    {
+      name: 'Checkups',
+      url: '/checkups',
+      icon: 'icon-question'
+    },
+    {
+      name: 'Infos',
+      url: '/infos',
+      icon: 'icon-info'
     }
     /* {
       name: 'Alerts2',
