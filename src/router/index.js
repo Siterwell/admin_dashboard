@@ -9,10 +9,10 @@ import Dashboard from '@/views/Dashboard'
 import Charts from '@/views/Charts'
 import Widgets from '@/views/Widgets'
 import Panels from '@/views/Panels'
-import Logs from '@/views/Logs'
 import Maps from '@/views/Maps'
 import Alerts from '@/views/Alerts'
-import Alerts2 from '@/views/Alerts2'
+import Checkups from '@/views/Checkups'
+import Infos from '@/views/Infos'
 
 // Views - Components
 import Buttons from '@/views/components/Buttons'
@@ -66,15 +66,15 @@ export default new Router({
           meta: { requiresAuth: true }
         },
         {
-          path: 'alerts2',
-          name: 'Alerts2',
-          component: Alerts2,
+          path: 'checkups',
+          name: 'Checkups',
+          component: Checkups,
           meta: { requiresAuth: true }
         },
         {
-          path: 'logs',
-          name: 'Logs',
-          component: Logs,
+          path: 'infos',
+          name: 'Infos',
+          component: Infos,
           meta: { requiresAuth: true }
         },
         {
