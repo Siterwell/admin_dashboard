@@ -1,36 +1,82 @@
 <template>
-   <div class="animated fadeIn">
+  <div class="animated fadeIn mt-3" align-h="center">
     <pulse-loader class="spin-c" :loading="loading"></pulse-loader>
     <div v-if="!loading" class="row">
-      <div class="col-sm-6 col-lg-3">
-        <b-card header="Avg. Device Number">
-          <div class="chart-wrapper">
-            <pie-example :dataList="getDevCnt"/>
-          </div>
-        </b-card>
-      </div><!--/.col-->
-      <div class="col-sm-6 col-lg-3">
-        <b-card header="Avg. Family Account">
-          <div class="chart-wrapper">
-            <pie-example :dataList="getAvgFamilyAccount"/>
-          </div>
-        </b-card>
-      </div>  
+      <div class="col-sm-6 col-lg-4 col-xl-4">
+        <router-link to="/alerts">
+          <b-card class="text-white bg-danger">
+            <div class="h1 text-right mb-0 float-right">
+              <i class="icon-bell"></i>
+            </div>
+            <div class="h1 mb-0">3</div>
+            <div class="text-uppercase font-weight-bold">Alerts</div>
+            <card-bar-chart-example class="chart-wrapper px-3" style="height:70px;" height="70"/>
+          </b-card>
+        </router-link>
+      </div>
+      <div class="col-sm-6 col-lg-4 col-xl-4">
+        <router-link to="/checkups">
+          <b-card class="text-white bg-warning">
+            <div class="h1 text-right mb-4 float-right">
+              <i class="icon-question"></i>
+            </div>
+            <div class="h1 mb-0">27</div>
+            <div class="text-uppercase font-weight-bold">Checkups</div>
+            <card-bar-chart-example class="chart-wrapper px-3" style="height:70px;" height="70"/>
+          </b-card>
+        </router-link>
+      </div>
+      <div class="col-sm-6 col-lg-4 col-xl-4">
+        <router-link to="/infos">
+          <b-card class="text-white bg-info">
+            <div class="h1 text-right mb-4 float-right">
+              <i class="icon-info"></i>
+            </div>
+            <div class="h1 mb-0">8</div>
+            <div class="text-uppercase font-weight-bold">Infos</div>
+            <card-bar-chart-example class="chart-wrapper px-3" style="height:70px;" height="70"/>
+          </b-card>
+        </router-link>
+      </div>
     </div><!--/.row-->
-   </div>
+    <div v-if="!loading" class="row">
+      <div class="col-sm-12 col-lg-6 col-xl-6">
+        <router-link to="/panels">
+          <b-card>
+            <div class="text-uppercase font-weight-bold">Managed Panels</div>
+            <div class="h1 mb-0">123,727</div>
+            <panels-chart class="chart-wrapper" style="height:300px;margin-top:40px;" height="300"></panels-chart>  
+          </b-card>
+        </router-link>
+      </div>
+      <div class="col-sm-12 col-lg-6 col-xl-6">
+        <router-link to="/devices">
+          <b-card>
+            <div class="text-uppercase font-weight-bold">Managed Devices</div>
+            <div class="h1 mb-0">521,490</div>
+            <devices-chart class="chart-wrapper" style="height:300px;margin-top:40px;" height="300"></devices-chart>  
+          </b-card>
+        </router-link>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import api from '../api'
 import { mapGetters, mapActions } from 'vuex'
 import PulseLoader from 'vue-spinner/src/PulseLoader.vue'
-import PieExample from './charts/PieExample'
+import PanelsChart from './dashboard/PanelsChart'
+import DevicesChart from './dashboard/DevicesChart'
+import CardBarChartExample from './dashboard/CardBarChartExample'
 
 export default {
   name: 'controllers',
   components: {
     PulseLoader,
-    PieExample
+    CardBarChartExample,
+    PanelsChart,
+    DevicesChart
   },
   data () {
     return {
@@ -126,6 +172,10 @@ export default {
       'setLoading',
       'setControllers'
     ])
+
+    // routeTo (path) {
+    //   this.$router.push({name: path})
+    // }
   }
 }
 </script>
